@@ -1,0 +1,15 @@
+version: '1'
+services: 
+  course-client:
+    build: ./course-client
+    ports:
+      - "6001:6001"
+    image: cty288/course-client
+    
+
+  course-admin:
+    build: ./course-admin
+    ports:
+      - "7001:7001"
+    image: cty288/course-admin
+
