@@ -48,4 +48,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       
       - name: Build and push
-        run: docker push cty288/course-admin
+        run: |
+          docker build .
+          docker push cty288/course-admin
