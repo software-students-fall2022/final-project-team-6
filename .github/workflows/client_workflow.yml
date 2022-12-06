@@ -34,7 +34,7 @@ jobs:
     needs: build
     defaults:
       run:
-        working-directory: ./client
+        working-directory: ./users
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
