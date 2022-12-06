@@ -1,0 +1,73 @@
+{% extends "common/layout.html"%}
+{% block content %}
+    <style>
+        .center {
+            margin: auto;
+            width: 45%;
+            border: 1px solid #2b2d2f;
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        img {
+            display: block;
+            margin: auto;
+            width: 100%;
+        }
+
+    </style>
+
+    <div class="panel panel-default">
+
+        <img class="center" src="{{ doc.original }}" class="img-responsive" alt="Responsive image">
+
+    </div>
+
+    <div class="row">
+    {% set i=namespace(value=1) %}
+        {% for pics in doc.results %}
+            <div class= "col-md-2">
+                <div class="thumbnail">
+                    <img src="{{ pics.img }}" class="img-responsive" alt="Responsive image">
+                    <div class="caption">
+                        <h3>Face {{ i.value }}</h3>
+                        <p> {{ pics.emotion }} </p>
+                    </div>
+                </div>
+            </div>
+            {% set i.value = i.value + 1 %}
+        {% endfor %}
+    </div>
+
+    <div class="panel panel-default">
+
+        <table class="table">
+            <tr>
+                <th> Anger </th>
+                <th> Contempt </th>
+                <th> Disgust </th>
+                <th> Fear </th>
+                <th> Happiness </th>
+                <th> Neutral </th>
+                <th> Sadness </th>
+                <th> Surprise </th>
+            </tr>
+
+            <tr>
+                <td> {{ doc.Percentage["Anger"] }} </td>
+                <td> {{ doc.Percentage["Contempt"] }} </td>
+                <td> {{ doc.Percentage["Disgust"] }} </td>
+                <td> {{ doc.Percentage["Fear"] }} </td>
+                <td> {{ doc.Percentage["Happiness"] }} </td>
+                <td> {{ doc.Percentage["Neutral"] }} </td>
+                <td> {{ doc.Percentage["Sadness"] }} </td>
+                <td> {{ doc.Percentage["Surprise"] }} </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+{% endblock %}
+

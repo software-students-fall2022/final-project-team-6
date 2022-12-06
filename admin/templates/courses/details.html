@@ -1,0 +1,29 @@
+<!--REFERENCE
+https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/Taking_still_photos#javascript
+-->
+
+{% extends "common/layout.html"%}
+{% block content %}
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title>PhotoGallery</title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <link rel="stylesheet" href="../../static/css/photo_demo.css">
+        </head>
+
+        <body>
+            <div>
+                <p>Response {{emotion}}</p>      
+                <img src="{{imgBase64}}"/>
+            </div>
+
+        </body>      
+    </html>
+{% endblock %}
+
+
+
+

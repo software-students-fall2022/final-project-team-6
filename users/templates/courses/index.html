@@ -1,0 +1,62 @@
+{% extends "common/layout.html"%}
+{% block content %}
+
+    <div class="row">
+        {% for doc in docs %}
+            <div class="col-md-4">
+                <div class="thumbnail">
+                    <img style="width: 100%; height: 100%;" src="{{ doc.original }}" alt="...">
+                    <div class="caption">
+                        <h3>{{ doc.created_at }}</h3>
+                        <div style="margin: auto" class="btn-toolbar" role="toolbar" aria-label="...">
+                            <form id="sub{{doc._id}}" action = "photo_page" method = "POST">
+                                <p><a style="margin-right: 5px;" href="javascript:;" class="btn btn-primary" role="button" onclick = "document.getElementById('sub{{doc._id}}').submit();">Details</a>
+                                    <input type="hidden" name="id" value={{doc._id}}/>
+                            </form>
+                            <form id="sub{{doc._id}} + delete" action = "delete" method = "POST">
+                                <p><a style="background-color: red;" href="javascript:;" class="btn btn-primary" role="button" onclick = "document.getElementById('sub{{doc._id}} + delete').submit();" style="margin: auto">Delete</a>
+                                    <input type="hidden" name="id" value={{doc._id}}/>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+    <div class="panel panel-default">
+        <h1>Overall Analysis</h1>
+        <table class="table">
+            <tr>
+                <th> Anger </th>
+                <th> Contempt </th>
+                <th> Disgust </th>
+                <th> Fear </th>
+                <th> Happiness </th>
+                <th> Neutral </th>
+                <th> Sadness </th>
+                <th> Surprise </th>
+                <th> MAX </th>
+                <th> MIN </th>
+            </tr>
+
+            <tr>
+                <td> {{ analysis["Anger"] }} </td>
+                <td> {{ analysis["Contempt"] }} </td>
+                <td> {{ analysis["Disgust"] }} </td>
+                <td> {{ analysis["Fear"] }} </td>
+                <td> {{ analysis["Happiness"] }} </td>
+                <td> {{ analysis["Neutral"] }} </td>
+                <td> {{ analysis["Sadness"] }} </td>
+                <td> {{ analysis["Surprise"] }} </td>
+                <td> {{ analysis["MAX"] }} </td>
+                <td> {{ analysis["MIN"] }} </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+{% endblock %}
+
