@@ -2,6 +2,7 @@ from flask import Flask
 from controllers.index import index_page
 from controllers.dashboard import dashboard_page
 import os
+
 from io import BytesIO
 
 app = Flask(__name__)

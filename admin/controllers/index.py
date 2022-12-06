@@ -6,27 +6,21 @@ from io import BytesIO
 import base64
 import re
 import datetime
+from dotenv import dotenv_values
 
-def is_docker():
-    path = '/proc/self/cgroup'
-    return (
-        os.path.exists('/.dockerenv') or
-        os.path.isfile(path) and any('docker' in line for line in open(path))
-    )
+config = dotenv_values(".env")
 
-index_page = Blueprint( "index_page", __name__ )
+index_page = Blueprint("index_page", __name__ )
 app = Flask(__name__)
 app.secret_key = "secret key"
 
-if(is_docker()):
-    client = pymongo.MongoClient("db", 27017)
-else:
-    client = pymongo.MongoClient("127.0.0.1", 27017)
    
-   
-db=client["Team6"]
+client = pymongo.MongoClient(config["DB_CONNECTION_STRING"])   
+db=client[config["DB_NAME"]]
 
 
 @index_page.route('/')
 def home():
+    print(config["DB_CONNECTION_STRING"])
+    db.Test.insert_one({"emotion":"test"})
     return render_template('/courses/hello_world.html')

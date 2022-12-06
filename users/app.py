@@ -1,6 +1,7 @@
 from flask import Flask
 from controllers.index import index_page
 from controllers.dashboard import dashboard_page
+from dotenv import dotenv_values
 
 app = Flask(__name__)
 
