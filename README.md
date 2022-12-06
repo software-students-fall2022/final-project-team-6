@@ -25,6 +25,12 @@ Users can search add,comment and view all the course information
 
 3. The admin client (if run by Docker) will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`. A database container will also be created.
 
+# Deployed Apps
+We have deployed both of our apps. You can try them using the links below:
+<br>
+[Admin App](https://urchin-app-52ddx.ondigitalocean.app/)
+<br>
+[Visitor App](https://stingray-app-2-3m4gq.ondigitalocean.app/) 
 # API 
 
 [Schedge](https://schedge.a1liu.com/)
