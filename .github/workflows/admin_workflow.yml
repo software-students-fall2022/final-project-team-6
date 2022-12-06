@@ -28,6 +28,9 @@ jobs:
           pytest
   dockhub_push:
     name: Push Docker image to Docker Hub
+    defaults:
+      run:
+        working-directory: ./admin
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repo
