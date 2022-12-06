@@ -48,8 +48,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       
       - name: Build and push
-        uses: docker/build-push-action@v3
-        with:
-          context: .
-          push: true
-          tags: cty288/course-admin:latest
+        run: docker push cty288/course-admin
