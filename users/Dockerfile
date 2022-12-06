@@ -1,6 +1,6 @@
 # In Docker, it is common to base a new image on a previously-created image
 # Use an official Python runtime image as a parent image to base this image on
-FROM python:3.9.2
+FROM python:3.7-slim
 
 # Set the working directory within the image to /app
 WORKDIR /users
