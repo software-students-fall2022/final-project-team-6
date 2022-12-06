@@ -1,27 +1,14 @@
-version: '3'
-services:
-  db:
-    image: mongo:5.0
-    ports: 
-      - "27017:27017"
-    
-   
-  webapp:
-    build: ./admin
-    ports:
-      - "6001:6001"
-    depends_on:
-      - db
-
-  mlclient:
+version: '1'
+services: 
+  course-client:
     build: ./users
     ports:
+      - "6001:6001"
+    image: cty288/course-client
+    
+
+  course-admin:
+    build: ./admin
+    ports:
       - "7001:7001"
-    environment:
-      - PYTHONUNBUFFERED=1
-
-    dns:
-      - "8.8.8.8"
-    depends_on:
-      - db
-
+    image: cty288/course-admin
