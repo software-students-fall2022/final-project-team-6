@@ -12,13 +12,25 @@ Users can search add,comment and view all the course information
 - a **database** - stores the data used by both other parts
 
 # Running the Project
-1. Navigate to the root folder of this project, then run:
+1. Make sure you have a `.env` file exists in both `users` and `admin` directory. Within the `.env` file, make sure you have the following environment variables
+   ```
+   DB_CONNECTION_STRING=YOUR_DB_CONNECTION_STRING
+   DB_NAME=YOUR_DB_NAME
+   ```
+   where `DB_CONNECTION_STRING` is the connection string to your MongoDB database, and `DB_NAME` is the Database name.
+2. Navigate to the root folder of this project, then run:
    ```
    docker compose up
    ```
 
-2. The admin client (if run by Docker) will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`. A database container will also be created.
+3. The admin client (if run by Docker) will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`. A database container will also be created.
 
+# Deployed Apps
+We have deployed both of our apps. You can try them using the links below:
+<br>
+[Admin App](https://urchin-app-52ddx.ondigitalocean.app/)
+<br>
+[Visitor App](https://stingray-app-2-3m4gq.ondigitalocean.app/) 
 # API 
 
 [Schedge](https://schedge.a1liu.com/)
