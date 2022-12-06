@@ -1,4 +1,4 @@
-name: machine learning workflow
+name: admin workflow
 
 on: [push]
 
