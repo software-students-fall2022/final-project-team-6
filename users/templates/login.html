@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Opening</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../static/css/login.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+    <div>
+        <h1 id="login-header">Welcome!</h1>
+        <h2 id="login-subheader">Lorem Amusement Park</h2>
+    </div>
+    <div id="login-error-msg-holder">
+      <p id="login-error-msg" style="opacity:{{opac}};">{{msg}}</p>
+    </div>
+    
+    <form id="login-form" action="/login/login" method="POST">
+      <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+      <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+      <input type="submit" value="Login" id="login-form-submit" name="action">
+    </form>
+
+    <form id="login-form" action="/login/sign_up" method="POST">
+        <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
+        <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
+        <input type="text" name="school" id="school-field" class="login-form-field" placeholder="School">
+        <input type="text" name="subject" id="subject-field" class="login-form-field" placeholder="Subject">
+        <input type="submit" value="Sign Up" id="login-form-submit" name="action">
+    </form>
+
+    </body>
+        
+</html>
