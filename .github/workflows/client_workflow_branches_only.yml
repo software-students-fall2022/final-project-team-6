@@ -1,6 +1,11 @@
-name: client workflow
+name: client workflow for testing branches
 
-on: [push]
+on: 
+  push:
+    branches:
+      - '!master'
+      - '*'
+    
 
 jobs:
   build:
