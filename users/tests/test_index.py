@@ -1,8 +1,8 @@
 import os
-from os.path import dirname, join
+from os.path import dirname, join, abspath
 import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(dirname(dirname(abspath(__file__))))
 
 from controllers import index
 #import index
