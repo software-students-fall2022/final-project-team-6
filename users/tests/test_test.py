@@ -1,11 +1,11 @@
 import os
 from os.path import dirname, join, abspath
 import sys
-from models.user import User
+#from models.user import User
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-from controllers import index
+#from controllers import index
 from controllers import login
 
 import pymongo
