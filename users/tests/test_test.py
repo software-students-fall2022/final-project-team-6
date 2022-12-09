@@ -12,11 +12,11 @@ import ssl
 
 
 def test_add_user1():
-    db.Users.remove({ "username": "Danzai" })
+    
     client = pymongo.MongoClient("mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-nyc1-17689-274bdc70.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-17689")
     #client = pymongo.MongoClient(config["DB_CONNECTION_STRING"]) 
     db=client["Test"]
-
+    #db.Users.remove({ "username": "Danzai" })
     user_info = login.add_user_to_db("Danzai", "12345", "nyu", "cs", db)
 
 
@@ -40,12 +40,12 @@ def test_add_existing_user2():
 
 '''
 def test_add_user3():
-    db.Users.remove({ "username": "Vincent" })
+    
     
     client = pymongo.MongoClient("mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-nyc1-17689-274bdc70.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-17689")
     #client = pymongo.MongoClient(config["DB_CONNECTION_STRING"]) 
     db = client["Test"]
-
+    #db.Users.remove({ "username": "Vincent" })
     user_info = login.add_user_to_db("Vincent", "00000", "Harvard", "econ", db)
 
 
