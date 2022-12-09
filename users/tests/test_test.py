@@ -49,7 +49,7 @@ def test_add_user3():
     user_info = login.add_user_to_db("Vincent", "00000", "Harvard", "econ", db)
 
 
-    expected_result = User(user_info._id.str,"Vincent", "Harvard", "econ")
+    expected_result = User("23333","Vincent", "Harvard", "econ")
 
     assert user_info.username == expected_result.username, "failed add user 3 test"
 
@@ -61,7 +61,7 @@ def test_get_user1():
 
     get_user = login.get_user_object_in_db("Vincent", db)
 
-    expected_result = User(get_user._id.str,"Vincent", "Harvard", "econ")
+    expected_result = User("00000","Vincent", "Harvard", "econ")
 
     assert get_user.school== expected_result.school
     
