@@ -27,7 +27,6 @@
 
           <div>
               <h1 id="login-header">Welcome!</h1>
-              <h2 id="login-subheader">Lorem Amusement Park</h2>
           </div>
           <div id="login-error-msg-holder">
               <p id="login-error-msg" style="opacity:{{opac}};">{{msg}}</p>
@@ -49,24 +48,9 @@
               <div class="form-group" id="login-form" action="/login/login" method="POST">
                   <div class="col-sm-offset-2 col-sm-10">
                       <input type="submit" value="Login" id="login-form-submit" name="action">
+                      <a href="/signup">Sign up <span class="sr-only">(current)</span></a>
                   </div>
               </div>
-          </form>
-
-          <p> sign up </p>
-
-          <form id="login-form" action="/login/login" method="POST">
-              <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
-              <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
-              <input type="submit" value="Login" id="login-form-submit" name="action">
-          </form>
-
-          <form id="login-form" action="/login/sign_up" method="POST">
-              <input type="text" name="username" id="username-field" class="login-form-field" placeholder="Username">
-              <input type="password" name="password" id="password-field" class="login-form-field" placeholder="Password">
-              <input type="text" name="school" id="school-field" class="login-form-field" placeholder="School">
-              <input type="text" name="subject" id="subject-field" class="login-form-field" placeholder="Subject">
-              <input type="submit" value="Sign Up" id="login-form-submit" name="action">
           </form>
 
       </div>

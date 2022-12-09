@@ -77,7 +77,7 @@ def login():
 def sign_up():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard.dashboard_main'))
-    
+
     name = request.form.get('username')
     password = request.form.get('password')
     school = request.form.get('school')
