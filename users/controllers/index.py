@@ -18,11 +18,14 @@ app = Flask(__name__)
 app.secret_key = "secret key"
 
 
-
-
 @index_page.route('/')
 def home():
     print("Authentification: " + str(current_user.is_authenticated))
     if current_user.is_authenticated: 
         return redirect(url_for('dashboard.dashboard_main'))
     return render_template('login.html')
+
+@index_page.route('/signup', methods = ['GET', 'POST'])
+def signup():
+    return render_template('sign_up.html')
+

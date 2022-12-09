@@ -7,8 +7,6 @@ from models.database import db
 
 login_page = Blueprint("login", __name__)
 
-    
-
 @staticmethod
 def get_current_user():
     if current_user.is_authenticated:
@@ -79,7 +77,7 @@ def login():
 def sign_up():
     if current_user.is_authenticated:
         return redirect(url_for('dashboard.dashboard_main'))
-    
+
     name = request.form.get('username')
     password = request.form.get('password')
     school = request.form.get('school')
@@ -91,6 +89,5 @@ def sign_up():
         return redirect(url_for('dashboard.dashboard_main'))
     else:
         if(name == "" or password == "" or school == "" or subject == ""):
-            return render_template('login.html', opac=1, msg="Please fill in all the fields")
-        return render_template('login.html', opac=1, msg="Username already exists")
-    
+            return render_template('sign_up.html', opac=1, msg="Please fill in all the fields")
+        return render_template('sign_up.html', opac=1, msg="Username already exists")

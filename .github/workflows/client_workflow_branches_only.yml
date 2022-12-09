@@ -3,7 +3,7 @@ name: client workflow for testing branches
 on: 
   push:
     branches:
-      - '!master'
+      - '!main'
       - '*'
     
 
