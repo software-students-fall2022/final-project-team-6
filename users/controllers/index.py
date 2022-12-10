@@ -27,5 +27,5 @@ def home():
 
 @index_page.route('/signup', methods = ['GET', 'POST'])
 def signup():
-    return render_template('sign_up.html')
+     return redirect(url_for('login.sign_up_page'))
 
