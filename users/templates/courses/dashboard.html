@@ -1,0 +1,125 @@
+{% extends "common/layout.html"%}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>User Dashboard</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../static/css/dashboard.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <form class="form-horizontal" action="/dashboard/home" method="GET" id="register-form">
+      <div class="form-group">
+          <label for="inputPassword3" class="col-sm-2 control-label">School</label>
+          <div class="col-sm-10">
+                <select id="school-select" name="school"></select>
+          </div>
+      </div>
+
+      <div class="form-group">
+          <label for="inputPassword3" class="col-sm-2 control-label">Subject</label>
+          <div class="col-sm-10">
+            <select id="subject-select" name="subject"></select>
+          </div>
+      </div>
+
+
+      <div class="form-group" >
+          <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="Search" id="submit-button" disabled></input>
+          </div>
+      </div>
+  </form>
+
+  <ul id="courseList">
+    {% for course in courses %}
+      <li>
+        {{ course.courseName }} {{ course.instructors }} {{ course.status }}
+        <form class="form-horizontal" action="/course/details" method="GET">
+          <input type="hidden" name="courseFullname" value="{{course.courseName}}">
+          <input type="submit" value="Details" />
+        </form>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <script>
+    let option = document.createElement('option');
+    option.value = "Select a school...";
+    option.innerHTML = "Select a school...";
+    document.getElementById('school-select').appendChild(option);
+    let selectedSchoolIndex = 0;
+    let i=0;
+    for (let school of {{ schools|tojson|safe }}) {
+        option = document.createElement('option');
+        option.value = school;
+        option.innerHTML = school;
+        document.getElementById('school-select').appendChild(option);
+        if(school == "{{selectedSchool}}"){
+            //select this option
+            //option.attr('selected', 'selected');
+            selectedSchoolIndex = i;
+        }
+        i++;
+    }
+   
+    document.getElementById('school-select').selectedIndex = selectedSchoolIndex+1;
+    let subjectSelect = document.getElementById('subject-select');
+
+    for (let subject of {{ subjects|tojson|safe }}[selectedSchoolIndex]) {
+        option = document.createElement('option');
+        option.value = subject.subjectFullname;
+        option.innerHTML = subject.subjectFullname;
+        subjectSelect.appendChild(option);
+    }
+    subjectSelect.value = "{{selectedSubject}}";
+   
+    document.getElementById('school-select').addEventListener('change', function() {
+        
+        let selectedCollege = this.selectedIndex-1;
+        let subjects = {{ subjects|tojson|safe }};
+        let courseSelect = document.getElementById('subject-select');
+        courseSelect.innerHTML = '';
+
+        
+        for (let subject of subjects[selectedCollege]) {
+            
+            let option = document.createElement('option');
+            option.value = subject.subjectFullname;
+            option.innerHTML = subject.subjectFullname;
+            courseSelect.appendChild(option);
+        }
+        if (selectedCollege && courseSelect.value) {
+            document.getElementById('submit-button').disabled = false;
+        } else {
+            document.getElementById('submit-button').disabled = true;
+        }
+    });
+        
+    
+
+
+    
+    document.getElementById('subject-select').addEventListener('change', function() {
+        let selectedCourse = this.value;
+    
+        
+        if (selectedCourse && document.getElementById('subject-select').value) {
+            document.getElementById('submit-button').disabled = false;
+        } else {
+            document.getElementById('submit-button').disabled = true;
+        }
+    });
+
+   
+
+</script>
+    
+</html>
+
+{% endblock %}
