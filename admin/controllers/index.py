@@ -38,7 +38,7 @@ def createSubjectsCollection():
         data = {
             "$set":{"schoolFullname": schools[abbr]["name"]}
         }
-        if abbr != "NT" and abbr != "ND":
+        if abbr != "NT" and abbr != "ND" and abbr != "US" and abbr != "DC":
             db.Schools.update_one(key, data, upsert=True)
             schoolDict[abbr] = schools[abbr]["name"]
 
