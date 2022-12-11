@@ -2,6 +2,7 @@ from flask import Flask
 from controllers.index import index_page
 from controllers.dashboard import dashboard_page
 from controllers.login import login_page
+from controllers.course import course_page
 from dotenv import dotenv_values
 from flask_login import LoginManager, UserMixin, login_user, logout_user, login_required, current_user
 from models.database import db
@@ -16,6 +17,7 @@ login_manager.init_app(app)
 
 app.register_blueprint( dashboard_page,url_prefix = "/dashboard" )
 app.register_blueprint(login_page, url_prefix = "/login")
+app.register_blueprint(course_page, url_prefix = "/course" )
 app.register_blueprint( index_page )
 
 if __name__ == '__main__':

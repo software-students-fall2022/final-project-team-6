@@ -8,7 +8,7 @@ from bson.objectid import ObjectId
 
 
 class User(UserMixin):
-    def __init__(self, id, username, school, subject):
+    def __init__(self, id, username: str, school: str, subject: str):
         self.username = username
         if(isinstance(id, ObjectId)):
             id = str(id)
