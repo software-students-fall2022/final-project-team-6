@@ -8,7 +8,7 @@ import models.database as database
 
 login_page = Blueprint("login", __name__)
 
-@staticmethod
+
 def get_current_user():#pragma: no cover
     if current_user.is_authenticated:
         return User(id = current_user.id, username = current_user.username, school = current_user.school, subject = current_user.subject)
