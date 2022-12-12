@@ -3,7 +3,7 @@ name: admin workflow only for testing branches
 on: 
   push:
     branches:
-      - '!master'
+      - '!main'
       - '*'
 
 jobs:

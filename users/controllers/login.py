@@ -3,16 +3,15 @@ from models.user import User
 
 from flask import Blueprint, render_template, request, redirect, url_for, make_response, session, flash
 from models.database import db
-
+import json
+import models.database as database
 
 login_page = Blueprint("login", __name__)
-
-    
 
 @staticmethod
 def get_current_user():
     if current_user.is_authenticated:
-        return User(id = current_user.id, username = current_user.username)
+        return User(id = current_user.id, username = current_user.username, school = current_user.school, subject = current_user.subject)
     return None
 
 
@@ -60,37 +59,57 @@ def check_can_sign_up(username, password, school, subject, database):
         return True
     return False
 
+
                                     
 @login_page.route('/login', methods = ['POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard.dashboard_main'))
+        return redirect(url_for('dashboard.home'))
     
     name = request.form.get('username')
     password = request.form.get('password')
     if(check_can_login(name, password, db)):
         user_obj = get_user_object_in_db(name, db)
         login_user(user_obj)
-        return redirect(url_for('dashboard.dashboard_main'))
+        return redirect(url_for('dashboard.home'))
     else:
          return render_template('login.html', opac=1, msg="Invalid username and/or password")
+ 
+@login_page.route('/sign_up_page', methods = ['GET'])
+def sign_up_page():
+    schools = database.fetch_all_schools(db)
+    subjects = database.fetch_all_subjects(db)
+    return render_template('sign_up.html', opac=1, msg="", schools=schools, subjects=subjects)
  
 @login_page.route('/sign_up', methods = ['POST'])
 def sign_up():
     if current_user.is_authenticated:
-        return redirect(url_for('dashboard.dashboard_main'))
+        return redirect(url_for('dashboard.home'))
     
-    name = request.form.get('username')
-    password = request.form.get('password')
+    #print("sign_up called")
+    #data = request.form.get
+    #data= json.loads(request.data, strict=False)
+    #print("data: ", data)
+    #school = data["school"]
     school = request.form.get('school')
     subject = request.form.get('subject')
+    name = request.form.get('username')
+    password = request.form.get('password')
+    #print("school: ", school) 
+    #subject = data["subject"]
+    #name = data["username"]
+    #print("name: ", name)
+    #password = data["password"]
+    print("password: ", password)
+   
     
     if(check_can_sign_up(name, password, school, subject, db)):
         user_obj = add_user_to_db(name, password, school, subject, db)
         login_user(user_obj)
-        return redirect(url_for('dashboard.dashboard_main'))
+        return redirect(url_for('dashboard.home'))
     else:
+        schools = database.fetch_all_schools(db)
+        subjects = database.fetch_all_subjects(db)
         if(name == "" or password == "" or school == "" or subject == ""):
-            return render_template('login.html', opac=1, msg="Please fill in all the fields")
-        return render_template('login.html', opac=1, msg="Username already exists")
-    
+            return render_template('sign_up.html', opac=1, msg="Please fill in all the fields", schools=schools, subjects=subjects)
+        return render_template('sign_up.html', opac=1, msg="Username already exists", schools=schools, subjects=subjects)
