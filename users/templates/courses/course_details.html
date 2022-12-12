@@ -1,0 +1,150 @@
+{% extends "common/layout.html"%}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Course Details</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <style>
+            .course-details {
+                font-family: sans-serif;
+                margin: 20px;
+                padding: 20px;
+                background-color: #eee;
+              }
+              
+              .comment {
+                border: 1px solid #ccc;
+                background-color: #fff;
+              }
+              
+              h1, h2 {
+                margin: 10px 0;
+                font-weight: bold;
+              }
+              
+              
+              .comment-form {
+                  margin: 20px;
+                  padding: 20px;
+                  background-color: #eee;
+              }
+              
+              .rating {
+                  display: flex;
+                  align-items: center;
+                  margin-bottom: 10px;
+              }
+              
+              .star {
+                  width: 20px;
+                  height: 20px;
+                  cursor: pointer;
+              }
+              
+              textarea {
+                  display: block;
+                  width: 100%;
+                  height: 100px;
+                  margin-bottom: 10px;
+                  padding: 10px;
+                  font-size: 14px;
+                  border: 1px solid #ccc;
+                  resize: none;
+              }
+              
+              .submit-button {
+                  display: block;
+                  width: 100%;
+                  padding: 10px;
+                  font-size: 14px;
+                  cursor: pointer;
+                  background-color: #333;
+                  color: #fff;
+                  border: none;
+              }
+              
+              .submit-button:disabled {
+                  background-color: #ccc;
+                  color: #333;
+                  cursor: not-allowed;
+              }
+              
+        </style> 
+        <div class="course-details">
+            <h1>{{ details.courseName }}</h1>
+            <p>Instructor(s): {{ details.instructors }}</p>
+            <p>Type: {{ details.type }}</p>
+            <p>Instruction Mode: {{ details.instructionMode }}</p>
+            <p>Location: {{ details.location }}</p>
+            <p>Units: {{ details.units }}</p>
+            <p>School: {{ details.schoolFullname }}</p>
+            <p>Subject: {{ details.subjectFullname }}</p>
+        
+            <!-- Overall Rating -->
+            <h2>Overall Rating</h2>
+            {%if overall_rating >= 0%}
+             <p>{{ overall_rating }}</p>
+            {%else%}
+                <p>N/A</p>
+            {%endif%}
+
+            <h2>Add Comment</h2>
+            <div class="comment-form">
+                <form action="/course/submit_comment" method="POST">
+                    <div class="rating">
+                        <img src="../../static/images/empty_star.png" class="star" onclick="fillStars(1)">
+                        <img src="../../static/images/empty_star.png" class="star" onclick="fillStars(2)">
+                        <img src="../../static/images/empty_star.png" class="star" onclick="fillStars(3)">
+                        <img src="../../static/images/empty_star.png" class="star" onclick="fillStars(4)">
+                        <img src="../../static/images/empty_star.png" class="star" onclick="fillStars(5)">
+                    </div>
+                    <textarea name="comment" placeholder="Enter your comment here"></textarea>
+                    <input type="hidden" name="rating" id="rating">
+                    <input type="hidden" name="course_name" value={{details.courseName}}>
+                    <button type="submit" class="submit-button" disabled>Submit</button>
+                </form>
+            </div>
+            
+            <script>
+                // Function to fill the stars up to the selected number
+                function fillStars(num) {
+                    // Get all the star images
+                    var stars = document.querySelectorAll(".star");
+                    // Loop through the stars and fill up to the selected number
+                    for (var i = 0; i < num; i++) {
+                        stars[i].src = "../../static/images/filled_star.png";
+                    }
+                    for(var i = num; i < 5; i++) {
+                        stars[i].src = "../../static/images/empty_star.png";
+                    }
+                    // Set the hidden input value with the selected number of stars
+                    document.querySelector("#rating").value = num;
+                    // Enable the submit button
+                    document.querySelector(".submit-button").disabled = false;
+                }
+            </script>
+            <!-- Comments -->
+            <h2>Comments</h2>
+            {% for comment in comments %}
+                <div class="comment">
+                    <p>Username: {{ comment.username }}</p>
+                    <p>Comment: {{ comment.comment }}</p>
+                    <p>Rating: {{ comment.rating }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+    
+</html>
+
+{% endblock %}

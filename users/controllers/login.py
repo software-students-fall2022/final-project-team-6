@@ -9,14 +9,14 @@ import models.database as database
 login_page = Blueprint("login", __name__)
 
 @staticmethod
-def get_current_user():
+def get_current_user():#pragma: no cover
     if current_user.is_authenticated:
         return User(id = current_user.id, username = current_user.username, school = current_user.school, subject = current_user.subject)
     return None
 
 
 @login_page.route('/logout', methods = ['GET', 'POST'])
-def logout():
+def logout(): #pragma: no cover
     logout_user()
     return redirect(url_for('index_page.home'))
 
@@ -62,7 +62,7 @@ def check_can_sign_up(username, password, school, subject, database):
 
                                     
 @login_page.route('/login', methods = ['POST'])
-def login():
+def login(): 
     if current_user.is_authenticated:
         return redirect(url_for('dashboard.home'))
     
