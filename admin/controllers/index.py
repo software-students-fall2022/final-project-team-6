@@ -52,20 +52,25 @@ def createSubjectsCollection():
 
 @index_page.route('/')
 def home():
-    print(config["DB_CONNECTION_STRING"])
-    db.Test.insert_one({"emotion":"test"})
-    return render_template('/courses/hello_world.html')
+    #only demonstrate school name 
+    docs = db.Schools.find({},{ "_id":0, "schoolAbbr": 0, "subjects":0})
+    
+    #docs is list eg.  [{'schoolFullname': 'Tandon School of Engineering - Graduate'}, {'schoolFullname': 'School of Professional Studies'}]
+    return render_template('/courses/hello_world.html',docs=docs)
 
-
+#query should be like "http://127.0.0.1:5000/course?school=UA&subject=CSCI"
 @index_page.route('/course', methods=['GET'])
 def course():
-    school_name = request.args.get("school")
-    subject_name = request.args.get("subject")
+    schoolAbbr = request.args.get("school").upper()
+    subjectAbbr = request.args.get("subject").upper()
 
-    school_name = "ua"
-    subject_name = "csci"
+    schoolFullname = db.Schools.find_one({"schoolAbbr":schoolAbbr},{"_id":0,"schoolFullname":1})["schoolFullname"]
+    subjectFullname = db.Schools.find_one({"schoolAbbr":schoolAbbr},{"_id":0,"subjects":{"$elemMatch":{"subjectAbbr":subjectAbbr}}})["subjects"][0]["subjectFullname"]
 
-    coursesAPI = requests.get("https://schedge.a1liu.com/current/current/"+school_name + "/" +subject_name )
+    print(schoolFullname)
+    print(subjectFullname)
+
+    coursesAPI = requests.get("https://schedge.a1liu.com/current/current/"+schoolAbbr + "/" +subjectAbbr )
     coursesAPI.encoding = 'utf-8'
     courses = json.loads(str(coursesAPI.text))
 
@@ -74,12 +79,22 @@ def course():
         course_name = course["name"]
         if (len(course["sections"])==1):
             doc = {}
-            doc["name"] = course_name
+            doc["courseName"] = course_name
             doc["deptCourseId"] = course["deptCourseId"]
-            doc["code"] = course["subjectCode"]["code"]
-            doc["school"] = course["subjectCode"]["school"]
+            doc["subjectAbbr"] = course["subjectCode"]["code"]
+            doc["subjectFullname"] = subjectFullname
+            doc["schoolAbbr"] = course["subjectCode"]["school"]
+            doc["schoolFullname"] = schoolFullname
             doc["registrationNumber"] = course["sections"][0]["registrationNumber"]
             doc["section_code"] = course["sections"][0]["code"]
+            #for adding ratemyprofessor url
+            professor = course["sections"][0]["instructors"][0]
+            rmpURL = "https://www.ratemyprofessors.com/"
+            if professor != "Staff":
+                query = professor.split(' ')
+                rmpURL = "https://www.ratemyprofessors.com/search/teachers?query=" + query[0] + "%20" + query[1] + "&sid=U2Nob29sLTY3NQ=="
+            doc["url"] = rmpURL
+            ####
             if len(course["sections"][0]["instructors"])==1:
                 doc["instructors"] = course["sections"][0]["instructors"][0]
             else:
@@ -91,17 +106,27 @@ def course():
                 doc["instructors"] = instructors
             doc["type"] = course["sections"][0]["type"]
             doc["status"] = course["sections"][0]["status"]
-            # doc["section_code"] = course["sections"][0]["instructionMode"]
-            doc["Units"] = course["sections"][0]["maxUnits"]
+            if "instructionMode" in course["sections"][0].keys():
+                doc["instructionMode"] = course["sections"][0]["instructionMode"]
+            else:
+                doc["instructionMode"] = "TBA"
+            doc["units"] = course["sections"][0]["maxUnits"]
             doc["location"] = course["sections"][0]["location"]
+            doc["display"] = False
+            doc["overallRating"] = -1
+            db.Courses.update_one({'courseName':doc["courseName"],  'schoolFullname':schoolFullname},{"$set":doc},upsert=True)
+            obj = db.Courses.find_one({'courseName':doc["courseName"],  'schoolFullname':schoolFullname})
+            doc["id"] = str(obj["_id"])
             docs.append(doc)
         else:
             for section in course["sections"]:
                 doc = {}
-                doc["name"] = course_name+" "+section["code"]
+                doc["courseName"] = course_name+" "+section["code"]
                 doc["deptCourseId"] = course["deptCourseId"]
-                doc["code"] = course["subjectCode"]["code"]
-                doc["school"] = course["subjectCode"]["school"]
+                doc["subjectAbbr"] = course["subjectCode"]["code"]
+                doc["subjectFullname"] = subjectFullname
+                doc["schoolAbbr"] = course["subjectCode"]["school"]
+                doc["schoolFullname"] = schoolFullname
                 doc["registrationNumber"] = section["registrationNumber"]
                 doc["section_code"] = section["code"]
                 if len(section["instructors"])==1:
@@ -113,16 +138,49 @@ def course():
                         instructors += ","
                     instructors = instructors[0:-1]
                     doc["instructors"] = instructors
+                #for adding ratemyprofessor url
+                professor = section["instructors"][0]
+                rmpURL = "https://www.ratemyprofessors.com/"
+                if professor != "Staff":
+                    query = professor.split(' ')
+                    rmpURL = "https://www.ratemyprofessors.com/search/teachers?query=" + query[0] + "%20" + query[1] + "&sid=U2Nob29sLTY3NQ=="
+                doc["url"] = rmpURL
+                ####
                 doc["type"] = section["type"]
                 doc["status"] = section["status"]
-                # doc["section_code"] = section["instructionMode"]
-                doc["Units"] = section["maxUnits"]
-                doc["location"] = course["sections"][0]["location"]
+                if "instructionMode" in section.keys():
+                    doc["instructionMode"] = section["instructionMode"]
+                else:
+                    doc["instructionMode"] = "TBA"
+                doc["units"] = section["maxUnits"]
+                doc["location"] = section["location"]
+                doc["display"] = False
+                doc["overallRating"] = -1
+                obj = db.Courses.update_one({'courseName':doc["courseName"], 'schoolFullname':schoolFullname},{"$set":doc},upsert=True)
+                obj = db.Courses.find_one({'courseName':doc["courseName"],  'schoolFullname':schoolFullname})
+                doc["id"] = str(obj["_id"])
                 docs.append(doc)
-                
-    for each in docs:
-        print(each)
+    #print(docs[0])
     return render_template('/courses/hello_world.html',docs=docs)
+
+@index_page.route('/update', methods=['POST'])
+def displayUpdate():
+    courseID = request.form.get('courseID')
+    type = str(request.form.get('type'))
+    db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':type}}) #update the display field to True or False
+    
+
+@index_page.route('/subject',methods = ["GET"])
+def subject():
+    school = request.args.get('schoolFullname')
+    school = "Tandon School of Engineering"
+    docs = db.Schools.find_one({"schoolFullname":school}, {"_id":0})
+
+    docs = docs["subjects"]
+    #docs is list eg. [{'subjectAbbr': 'VIP', 'subjectFullname': 'Vertically Integrated Projects'}]
+    return render_template('/courses/subjects.html',docs=docs)
+
+
 
 
 """
@@ -165,47 +223,21 @@ Original Schema:
 }
 Target Schema:
 {
-    "name" : "Ethics",
+    "courseName" : "Ethics",
     "deptCourseId" : "40",
-    "code" : "PHIL",
-    "school" : "UA",
+    "subjectAbbr" : "PHIL",
+    "schoolAbbr" : "UA",
    "registrationNumber" : 23262.0,
     "code" : "001",
     "instructors" : "Sanford Laurence Diehl",
     "type" : "Lecture",
     "status" : "Open",
     "instructionMode" : "In-Person",
-    "name" : "Ethics",
-    "minUnits" : 0.0,
-    "maxUnits" : 4.0,
-    "location" : "Meyer Hall - Room: 122"    
+    "units" : 4.0,
+    "location" : "Meyer Hall - Room: 122",
+    "display" : False,
+    "url" : "https://www.ratemyprofessors.com/search/teachers?query=Sanford%20Laurence%20Diehl&sid=U2Nob29sLTY3NQ=="
+    "id" : '6397d5499cbb8d66ff9ade0f'，
+    "overallRating" : 1
 }
 """
-
-
-@index_page.route('/course', methods=['GET'])
-def add_one_course_to_database():
-    """
-    get one course form frontend
-    db.courses
-    """
-    pass
-
-def school():
-    #only demonstrate school name 
-    docs = db.Schools.find({},{ "_id":0, "schoolAbbr": 0, "subjects":0})
-    
-    #docs is list eg.  [{'schoolFullname': 'Tandon School of Engineering - Graduate'}, {'schoolFullname': 'School of Professional Studies'}]
-    return render_template('/courses/school.html',docs=docs)
-
-@index_page.route('/subject',methods = ["GET"])
-def subject():
-    school = request.args.get('schoolFullname')
-    school = "Tandon School of Engineering"
-    docs = db.Schools.find_one({"schoolFullname":school}, {"_id":0})
-
-    docs = docs["subjects"]
-    #docs is list eg. [{'subjectAbbr': 'VIP', 'subjectFullname': 'Vertically Integrated Projects'}]
-    return render_template('/courses/subjects.html',docs=docs)
-
-
