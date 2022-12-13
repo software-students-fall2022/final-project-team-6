@@ -33,6 +33,6 @@ def home():
     schools = database.fetch_all_schools(db)
     subjects = database.fetch_all_subjects(db)
     
-    courses = database.get_all_courses_by_subject_fullname(selectedSubject, db)
+    courses = database.get_all_courses_by_school_subject_fullname(selectedSchool,selectedSubject, db)
     
     return render_template('courses/dashboard.html', schools=schools, subjects=subjects, selectedSchool=selectedSchool, selectedSubject=selectedSubject, courses=courses)

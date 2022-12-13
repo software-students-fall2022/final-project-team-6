@@ -2,7 +2,7 @@ import pymongo
 from dotenv import dotenv_values
 from .comment import Comment
 from bson import json_util
-
+from bson import ObjectId
 config = dotenv_values(".env")
 
 client = pymongo.MongoClient(config["DB_CONNECTION_STRING"])   
@@ -23,17 +23,22 @@ def fetch_all_subjects(database):
     all_subjects = [subject['subjects'] for subject in all_subjects_in_db]
     return all_subjects
 
-def get_all_courses_by_subject_fullname(subject_fullname, database):
-    all_courses_in_db = database.Courses.find({"subjectFullname": subject_fullname})
+def get_all_courses_by_school_subject_fullname(school_fullname, subject_fullname, database):
+    all_courses_in_db = database.Courses.find({"subjectFullname": subject_fullname, "schoolFullname": school_fullname})
+    if(all_courses_in_db == None):
+        return []
     return list(all_courses_in_db)
 
-def get_course_info_by_course_name(course_name, database):
-    course_info = database.Courses.find_one({"courseName": course_name})
+def get_course_info_by_course_id(course_id, database):
+    print("course id: " + course_id)
+    course_info = database.Courses.find_one({"_id": ObjectId(course_id)})
+    if(course_info == None):
+        return None
     course_info = json_util.loads(json_util.dumps(course_info))
     return course_info
 
-def get_course_comments(course_name, database):
-    course_comments = database.Comments.find_one({"courseName": course_name})
+def get_course_comments(course_id, database):
+    course_comments = database.Comments.find_one({"course_id": ObjectId(course_id)})
     if(course_comments == None):
         return []
     
@@ -44,7 +49,7 @@ def get_course_comments(course_name, database):
             comments_list.append(Comment(username = comment["username"], comment = comment["comment"], rating = int(comment["rating"])))
     return comments_list
 
-def calculate_ratings(comments_list):
+def calculate_overall_ratings(comments_list):
     if(len(comments_list) == 0):
         return -1
     total = 0
@@ -52,13 +57,25 @@ def calculate_ratings(comments_list):
         total += comment.rating
     return round(total / len(comments_list),1)
 
-def add_comment(course_name, username, comment, rating, database):
-    # check if course exists in comments collection
-    if database.Comments.find_one({"courseName": course_name}) == None:
-        database.Comments.insert_one({"courseName": course_name, "comments": []})
+
+def update_overall_rating(course_id, database):
+    comments_list = get_course_comments(course_id, database)
+    ratings = calculate_overall_ratings(comments_list)
+    if database.Comments.find_one({"course_id": ObjectId(course_id)}) == None:
+       return
+    database.Comments.update_one({"course_id": ObjectId(course_id)}, {"$set": {"overall_rating": ratings}})
+    database.Courses.update_one({"_id": ObjectId(course_id)}, {"$set": {"overallRating": ratings}})
     
+    
+def add_comment(course_id, username, comment, rating, database):
+    # check if course exists in comments collection
+    if database.Comments.find_one({"course_id": ObjectId(course_id)}) == None:
+        database.Comments.insert_one({"course_id": ObjectId(course_id), "comments": [], "overall_rating": -1})
+        
     #add a comment to the beginning of the comments list
-    database.Comments.update_one({"courseName": course_name}, {"$push": {"comments": {"$each": [{"username": username, "comment": comment, "rating": rating}], "$position": 0}}})
+    database.Comments.update_one({"course_id": ObjectId(course_id)}, {"$push": {"comments": {"$each": [{"username": username, "comment": comment, "rating": rating}], "$position": 0}}})
+    
+    update_overall_rating(course_id, database)
     return
     
     
