@@ -81,7 +81,7 @@
               
         </style> 
         <div class="course-details">
-            <h1>{{ details.courseName }}</h1>
+            <h1>{{details.subjectAbbr}}-{{details.schoolAbbr}}-{{details.deptCourseId}}: {{ details.courseName }}</h1>
             <p>Instructor(s): {{ details.instructors }}</p>
             <p>Type: {{ details.type }}</p>
             <p>Instruction Mode: {{ details.instructionMode }}</p>
@@ -92,8 +92,8 @@
         
             <!-- Overall Rating -->
             <h2>Overall Rating</h2>
-            {%if overall_rating >= 0%}
-             <p>{{ overall_rating }}</p>
+            {%if details.overallRating >= 0%}
+             <p>{{ details.overallRating }}</p>
             {%else%}
                 <p>N/A</p>
             {%endif%}
@@ -110,7 +110,7 @@
                     </div>
                     <textarea name="comment" placeholder="Enter your comment here"></textarea>
                     <input type="hidden" name="rating" id="rating">
-                    <input type="hidden" name="course_name" value={{details.courseName}}>
+                    <input type="hidden" name="course_id" value={{details._id}}>
                     <button type="submit" class="submit-button" disabled>Submit</button>
                 </form>
             </div>
