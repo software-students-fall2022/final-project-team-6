@@ -24,7 +24,7 @@ def fetch_all_subjects(database):
     return all_subjects
 
 def get_all_courses_by_school_subject_fullname(school_fullname, subject_fullname, database):
-    all_courses_in_db = database.Courses.find({"subjectFullname": subject_fullname, "schoolFullname": school_fullname})
+    all_courses_in_db = database.Courses.find({"subjectFullname": subject_fullname, "schoolFullname": school_fullname}).sort("deptCourseId", pymongo.ASCENDING)
     if(all_courses_in_db == None):
         return []
     return list(all_courses_in_db)
