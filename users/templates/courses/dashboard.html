@@ -13,6 +13,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
     <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
         <form class="form-horizontal" action="/dashboard/home" method="GET" id="register-form">
         <div class="form-group">
             <label for="inputPassword3" class="col-sm-2 control-label">School</label>
@@ -35,27 +37,67 @@
             </div>
         </div>
     </form>
+    {% set courseMap = courses | groupby('deptCourseId') %}
+    
+    
+    {% for key, value in courseMap %}
 
-    <ul id="courseList">
-        {% for course in courses %}
-        <li>
-            <p>Course Name: {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{ course.courseName }}</p>
-            <p>Instructors: {{ course.instructors }}</p>
-            <p>Status: {{ course.status }}</p>
-            {%if course.overallRating >= 0%}
-                <p>Overall Rating: {{ course.overallRating }}</p>
-           {%else%}
-                 <p>Overall Rating: N/A</p>
-           {%endif%}
-            <form class="form-horizontal" action="/course/details" method="GET">
-            <input type="hidden" name="courseID" value="{{course._id}}">
-            <input type="submit" value="Details" />
-            </form>
-        </li>
-        {% endfor %}
-    </ul>
+        {% set course = value[0] %}
+        <div class="collapsible collapsed">{{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}</div>
+        
+        
+        <div class="content">
+            
+                {% for course in value %}
+                <ul id="courseList">
+                <li>
+                    
+                    <p>Course Name: {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{ course.courseName }}</p>
+                    <p>Instructors: {{ course.instructors }}</p>
+                    <p>Status: {{ course.status }}</p>
+                    {%if course.overallRating >= 0%}
+                        <p>Overall Rating: {{ course.overallRating }}</p>
+                    {%else%}
+                        <p>Overall Rating: N/A</p>
+                    {%endif%}
+                    
+                    <form class="form-horizontal" action="/course/details" method="GET">
+                    <input type="hidden" name="courseID" value="{{course._id}}">
+                    <input type="submit" value="Details" />
+                    </form>
+                </li>
+            </ul>
+                {% endfor %}
+            
+        </div>
+        
+    {% endfor %}
+
+
+
+    
 
     <script>
+        $(document).ready(function() {
+
+            $(".collapsible").click(function() {
+
+                if ($(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                    $(this).next(".content").slideUp();
+                } else {
+
+                    $(this).addClass("active");
+                    $(this).next(".content").slideDown();
+                }
+            });
+            
+        });
+
+        $(".collapsed").next(".content").hide();
+
+
+
         let option = document.createElement('option');
         option.value = "Select a school...";
         option.innerHTML = "Select a school...";

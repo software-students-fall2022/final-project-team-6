@@ -34,5 +34,7 @@ def home():
     subjects = database.fetch_all_subjects(db)
     
     courses = database.get_all_courses_by_school_subject_fullname(selectedSchool,selectedSubject, db)
-    
+    # cast all _id in courses to string
+    courses = [dict(course, **{"_id": str(course["_id"])}) for course in courses]
+    print("courses: " + str(courses))
     return render_template('courses/dashboard.html', schools=schools, subjects=subjects, selectedSchool=selectedSchool, selectedSubject=selectedSubject, courses=courses)
