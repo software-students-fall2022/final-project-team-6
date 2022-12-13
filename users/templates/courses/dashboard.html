@@ -39,7 +39,7 @@
     <ul id="courseList">
         {% for course in courses %}
         <li>
-            <p>Course Name: {{ course.courseName }}</p>
+            <p>Course Name: {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{ course.courseName }}</p>
             <p>Instructors: {{ course.instructors }}</p>
             <p>Status: {{ course.status }}</p>
             {%if course.overallRating >= 0%}
