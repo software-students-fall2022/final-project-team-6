@@ -56,15 +56,13 @@ def home():
     docs = db.Schools.find({},{ "_id":0, "schoolAbbr": 0, "subjects":0})
     
     #docs is list eg.  [{'schoolFullname': 'Tandon School of Engineering - Graduate'}, {'schoolFullname': 'School of Professional Studies'}]
-    return render_template('/courses/school.html',docs=docs)
+    return render_template('/courses/hello_world.html',docs=docs)
 
+#query should be like "http://127.0.0.1:5000/course?school=UA&subject=CSCI"
 @index_page.route('/course', methods=['GET'])
 def course():
     schoolAbbr = request.args.get("school").upper()
     subjectAbbr = request.args.get("subject").upper()
-
-    schoolAbbr = "UA"
-    subjectAbbr = "CSCI"
 
     schoolFullname = db.Schools.find_one({"schoolAbbr":schoolAbbr},{"_id":0,"schoolFullname":1})["schoolFullname"]
     subjectFullname = db.Schools.find_one({"schoolAbbr":schoolAbbr},{"_id":0,"subjects":{"$elemMatch":{"subjectAbbr":subjectAbbr}}})["subjects"][0]["subjectFullname"]
@@ -115,10 +113,10 @@ def course():
             doc["units"] = course["sections"][0]["maxUnits"]
             doc["location"] = course["sections"][0]["location"]
             doc["display"] = False
+            doc["overallRating"] = -1
             db.Courses.update_one({'courseName':doc["courseName"],  'schoolFullname':schoolFullname},{"$set":doc},upsert=True)
             obj = db.Courses.find_one({'courseName':doc["courseName"],  'schoolFullname':schoolFullname})
             doc["id"] = str(obj["_id"])
-            doc["overallRating"] = 1
             docs.append(doc)
         else:
             for section in course["sections"]:
@@ -157,13 +155,32 @@ def course():
                 doc["units"] = section["maxUnits"]
                 doc["location"] = section["location"]
                 doc["display"] = False
+                doc["overallRating"] = -1
                 obj = db.Courses.update_one({'courseName':doc["courseName"], 'schoolFullname':schoolFullname},{"$set":doc},upsert=True)
                 obj = db.Courses.find_one({'courseName':doc["courseName"],  'schoolFullname':schoolFullname})
                 doc["id"] = str(obj["_id"])
-                doc["overallRating"] = 1
                 docs.append(doc)
-    print(docs[0])
+    #print(docs[0])
     return render_template('/courses/hello_world.html',docs=docs)
+
+@index_page.route('/update', methods=['POST'])
+def displayUpdate():
+    courseID = request.form.get('courseID')
+    type = str(request.form.get('type'))
+    db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':type}}) #update the display field to True or False
+    
+
+@index_page.route('/subject',methods = ["GET"])
+def subject():
+    school = request.args.get('schoolFullname')
+    school = "Tandon School of Engineering"
+    docs = db.Schools.find_one({"schoolFullname":school}, {"_id":0})
+
+    docs = docs["subjects"]
+    #docs is list eg. [{'subjectAbbr': 'VIP', 'subjectFullname': 'Vertically Integrated Projects'}]
+    return render_template('/courses/subjects.html',docs=docs)
+
+
 
 
 """
@@ -224,24 +241,3 @@ Target Schema:
     "overallRating" : 1
 }
 """
-
-
-@index_page.route('/course', methods=['POST'])
-def displayCourse():
-    courseID = request.form.get('courseID')
-    db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':True}}) #update the display field to True
-    
-
-
-@index_page.route('/subject',methods = ["GET"])
-def subject():
-    school = request.args.get('schoolFullname')
-    school = "Tandon School of Engineering"
-    docs = db.Schools.find_one({"schoolFullname":school}, {"_id":0})
-
-    docs = docs["subjects"]
-    #docs is list eg. [{'subjectAbbr': 'VIP', 'subjectFullname': 'Vertically Integrated Projects'}]
-    return render_template('/courses/subjects.html',docs=docs)
-
-
-
