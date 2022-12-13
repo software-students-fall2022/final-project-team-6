@@ -23,7 +23,7 @@ Users can search add,comment and view all the course information
    docker compose up
    ```
 
-3. The admin client (if run by Docker) will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`. A database container will also be created.
+3. The admin client (if run by Docker) will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`. 
 
 # Deployed Apps
 We have deployed both of our apps. You can try them using the links below:
@@ -37,56 +37,67 @@ We have deployed both of our apps. You can try them using the links below:
 
 Schedge is an API to NYU's course catalog. Please note that this API is currently under active development and is subject to change.
 
-# Schema
+# Collections
 
 User:
 
 ```javascript
 {
-    userSchema = new mongoose.Schema({
-        username: {type: String, required: true},
-        password: {type: String},
-        courses:  [{ type: mongoose.Schema.Types.ObjectId, ref: 'course' }],
-    });
+    "username" : str
+    "password" : str,
+    "school" : str,
+    "subject" : str
 }
 ```
+
+Schools:
+```javascript
+{
+    "schoolAbbr" : str,
+    "schoolFullname" : str,
+    "subjects" : [
+        {
+            "subjectAbbr" : str,
+            "subjectFullname" : str
+        }
+    ]
+}
+```
+
 
 Course:
 
 ```javascript
-{
-    courseSchema = new mongoose.Schema({
-        name:{type: String},
-        deptCourseId: {type: String},
-        description: {type: String},
-        subjectCode: {
-            code: {type: String},
-            school: {type: String}
-        },
-        rmpUrl:{type: String},
-        registrationNumber: {type: Number},
-        code: {type: String},
-        instructors: [],
-        type: {type: String},
-        status: {type: String},
-        time: {type: String},
-        recitations: [],
-        waitlistTotal: {type: Number},
-        instructionMode: {type: String},
-        campus: {type: String},
-        minUnits: {type: Number},
-        maxUnits: {type: Number},
-        grading: {type: String},
-        location: {type: String},
-        notes: {type: String},
-        prerequisites: {type: String},
-        subject:{type: String},
-        school:{type: String},
-        ID:{type: String}
-    });
+{  
+    "deptCourseId" : str,
+    "registrationNumber" : float,
+    "instructors" : str,
+    "type" : str,
+    "status" : str,
+    "instructionMode" : str,
+    "location" : str,
+    "units" : float,
+    "schoolAbbr" : str,
+    "schoolFullname" : str,
+    "subjectAbbr" :str,
+    "subjectFullname" : str,
+    "courseName" : str 
 }
 ```
 
+Comments:
+```javascript
+{
+    "courseName" : str,
+    "comments" : [
+        {
+            "username" : str,
+            "comment" : str,
+            "rating" : str
+        }
+    ]
+}
+```
 # File Structure
 
 ```
