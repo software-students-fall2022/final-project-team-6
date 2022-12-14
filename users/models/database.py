@@ -24,7 +24,7 @@ def fetch_all_subjects(database):
     return all_subjects
 
 def get_all_courses_by_school_subject_fullname(school_fullname, subject_fullname, database):
-    all_courses_in_db = database.Courses.find({"subjectFullname": subject_fullname, "schoolFullname": school_fullname}).sort("deptCourseId", pymongo.ASCENDING)
+    all_courses_in_db = database.Courses.find({"subjectFullname": subject_fullname, "schoolFullname": school_fullname})
     if(all_courses_in_db == None):
         return []
     return list(all_courses_in_db)
@@ -78,4 +78,13 @@ def add_comment(course_id, username, comment, rating, database):
     update_overall_rating(course_id, database)
     return
     
-    
+def search(search_string, database):
+    courses = database.Courses.find({"$or": [{ 'courseName' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'schoolFullname' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'instructors' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'subjectFullname' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'subjectAbbr' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'schoolAbbr' : { '$regex' : search_string, '$options' : 'i' }}]})
+    if(courses == None):
+        return []
+    return list(courses)

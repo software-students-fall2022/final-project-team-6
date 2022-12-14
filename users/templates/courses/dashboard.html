@@ -49,8 +49,8 @@
         <div class="content">
             
                 {% for course in value %}
-                <ul id="courseList">
-                <li>
+                <ul id="courseList" class="dashboard_ul"> 
+                <li  class="dashboard_li">
                     
                     <p>Course Name: {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{ course.courseName }}</p>
                     <p>Instructors: {{ course.instructors }}</p>

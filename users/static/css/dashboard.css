@@ -14,13 +14,13 @@ input {
   height: 30px;
 }
 
-ul {
+.dashboard_ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-li {
+.dashboard_li {
   display: flex;
   align-items: center;
   margin: 10px 0;
