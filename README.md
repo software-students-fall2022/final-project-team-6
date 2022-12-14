@@ -18,12 +18,40 @@ Users can search add,comment and view all the course information
    DB_NAME=YOUR_DB_NAME
    ```
    where `DB_CONNECTION_STRING` is the connection string to your MongoDB database, and `DB_NAME` is the Database name.
-2. Navigate to the root folder of this project, then run:
+
+## Running with Docker
+1. Navigate to the root folder of this project, then run:
    ```
    docker compose up
    ```
 
-3. The admin client (if run by Docker) will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`. 
+2. The admin client will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`. 
+
+## Running without Docker
+### User
+1. Navigate to `/users`, then:
+```
+pip3 install -r requirements.txt
+
+python -m flask run --port=6001
+```
+### Admin
+1. Navigate to `/admin`, then:
+```
+pip3 install -r requirements.txt
+
+python -m flask run --port=6001
+```
+
+# Running Tests
+Running tests does not require you to setup a MongoDB database, but does require you to have Internet connection.
+
+<br>
+
+Simply navigate to `/users` or `/admin`, then:
+```
+python -m pytest --cov
+``` 
 
 # Deployed Apps
 We have deployed both of our apps. You can try them using the links below:
@@ -31,7 +59,16 @@ We have deployed both of our apps. You can try them using the links below:
 [Admin App](https://urchin-app-52ddx.ondigitalocean.app/)
 <br>
 [Visitor App](https://stingray-app-2-3m4gq.ondigitalocean.app/) 
-# API 
+
+
+# Docker Images
+We have pushed our custom subsystem images to DockerHub:
+<br>
+[Admin App](https://hub.docker.com/repository/docker/cty288/course-admin)
+<br>
+[Visitor App](https://hub.docker.com/repository/docker/cty288/course-client) 
+
+# API Used 
 
 [Schedge](https://schedge.a1liu.com/)
 
