@@ -16,13 +16,13 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
        
-    {% set courseMap = courses | groupby('courseName') %}
+    {% set courseMap = courses | groupby('rawCourseName') %}
     
     
     {% for key, value in courseMap %}
 
         {% set course = value[0] %}
-        <div class="collapsible collapsed">{{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}</div>
+        <div class="collapsible collapsed">{{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{course.rawCourseName}}</div>
         
         
         <div class="content">
