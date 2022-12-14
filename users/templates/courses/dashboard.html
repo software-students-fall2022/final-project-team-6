@@ -43,15 +43,18 @@
     {% for key, value in courseMap %}
 
         {% set course = value[0] %}
-        <div class="collapsible collapsed">{{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{course.rawCourseName}}</div>
+
+        <div class="collapsible collapsed" style="color: #245269">
+            {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{course.rawCourseName}}
+        </div>
         
         
         <div class="content">
-            
                 {% for course in value %}
-                <ul id="courseList" class="dashboard_ul"> 
+
+                <ul id="courseList" class="dashboard_ul">
                 <li  class="dashboard_li">
-                    
+
                     <p>Course Name: {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{ course.courseName }}</p>
                     <p>Instructors: {{ course.instructors }}</p>
                     <p>Status: {{ course.status }}</p>
@@ -60,12 +63,30 @@
                     {%else%}
                         <p>Overall Rating: N/A</p>
                     {%endif%}
-                    
+
                     <form class="form-horizontal" action="/course/details" method="GET">
                     <input type="hidden" name="courseID" value="{{course._id}}">
                     <input type="submit" value="Details" />
                     </form>
                 </li>
+
+                <div class="list-group">
+                  <button type="button" class="list-group-item" style="font-weight: bolder; font-family: 'Gill Sans MT Ext Condensed Bold'`">
+                      {{ course.courseName }}
+                  </button>
+                  <button type="button" class="list-group-item">Instructors: {{ course.instructors }}</button>
+                  <button type="button" class="list-group-item">Type: {{ course.type }}</button>
+                  <button type="button" class="list-group-item">Status: {{ course.status }}</button>
+                  <button type="button" class="list-group-item">
+                      {%if course.overallRating >= 0%}
+                        <p>Overall Rating: {{ course.overallRating }}</p>
+                    {%else%}
+                        <p>Overall Rating: N/A</p>
+                    {%endif%}
+                  </button>
+                </div>
+
+
             </ul>
                 {% endfor %}
             
@@ -110,8 +131,6 @@
             option.innerHTML = school;
             document.getElementById('school-select').appendChild(option);
             if(school == "{{selectedSchool}}"){
-                //select this option
-                //option.attr('selected', 'selected');
                 selectedSchoolIndex = i;
             }
             i++;
