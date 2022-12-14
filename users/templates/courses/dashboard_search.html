@@ -1,0 +1,82 @@
+{% extends "common/layout_authenticated.html"%}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>User Dashboard</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../../static/css/dashboard.css">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+       
+    {% set courseMap = courses | groupby('rawCourseName') %}
+    
+    
+    {% for key, value in courseMap %}
+
+        {% set course = value[0] %}
+        <div class="collapsible collapsed">{{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{course.rawCourseName}}</div>
+        
+        
+        <div class="content">
+            
+                {% for course in value %}
+                <ul class="dashboard_ul" id="courseList">
+                <li class="dashboard_li">
+                    
+                    <p>Course Name: {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{ course.courseName }}</p>
+                    <p>Instructors: {{ course.instructors }}</p>
+                    <p>Status: {{ course.status }}</p>
+                    {%if course.overallRating >= 0%}
+                        <p>Overall Rating: {{ course.overallRating }}</p>
+                    {%else%}
+                        <p>Overall Rating: N/A</p>
+                    {%endif%}
+                    
+                    <form class="dashboard_form"  action="/course/details" method="GET">
+                    <input class="dashboard_input" type="hidden" name="courseID" value="{{course._id}}">
+                    <input class="dashboard_input" type="submit" value="Details" />
+                    </form>
+                </li>
+            </ul>
+                {% endfor %}
+            
+        </div>
+        
+    {% endfor %}
+
+
+
+    
+
+    <script>
+        $(document).ready(function() {
+
+            $(".collapsible").click(function() {
+
+                if ($(this).hasClass("active")) {
+                    $(this).removeClass("active");
+                    $(this).next(".content").slideUp();
+                } else {
+
+                    $(this).addClass("active");
+                    $(this).next(".content").slideDown();
+                }
+            });
+            
+        });
+
+        $(".collapsed").next(".content").hide();
+    </script>
+</body>
+    
+</html>
+
+{% endblock %}

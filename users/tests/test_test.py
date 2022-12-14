@@ -19,7 +19,7 @@ def reset(): #pragma: no cover
     db=client["Test"]
     db.Users.delete_one({ "username": "Danzai" })
     db.Users.delete_one({ "username": "Vincent" })
-    db.Users.delete_one({ "username": "Vincent2" })
+  
 
 
 @pytest.fixture(autouse=True)
@@ -80,7 +80,7 @@ def test_get_user1(reset_database): #pragma: no cover
     client = pymongo.MongoClient("mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-nyc1-17689-274bdc70.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-17689")
     #client = pymongo.MongoClient(config["DB_CONNECTION_STRING"]) 
     db=client["Test"]
-    login.add_user_to_db("Vincent2", "00000", "Harvard", "econ", db)
+    #login.add_user_to_db("Vincent2"", "00000", "Harvard", "econ", db)
     get_user = login.get_user_object_in_db("Vincent2", db)
 
     expected_result = User("00000","Vincent2", "Harvard", "econ")

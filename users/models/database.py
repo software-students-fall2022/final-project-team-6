@@ -78,4 +78,13 @@ def add_comment(course_id, username, comment, rating, database):
     update_overall_rating(course_id, database)
     return
     
-    
+def search(search_string, database):
+    courses = database.Courses.find({"$or": [{ 'courseName' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'schoolFullname' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'instructors' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'subjectFullname' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'subjectAbbr' : { '$regex' : search_string, '$options' : 'i' }},
+                                   { 'schoolAbbr' : { '$regex' : search_string, '$options' : 'i' }}]})
+    if(courses == None):
+        return []
+    return list(courses)

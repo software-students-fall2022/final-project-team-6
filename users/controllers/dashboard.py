@@ -34,5 +34,18 @@ def home():
     subjects = database.fetch_all_subjects(db)
     
     courses = database.get_all_courses_by_school_subject_fullname(selectedSchool,selectedSubject, db)
-    
+    # cast all _id in courses to string
+    #courses = [dict(course, **{"_id": str(course["_id"])}) for course in courses]
+    print("courses: " + str(courses))
     return render_template('courses/dashboard.html', schools=schools, subjects=subjects, selectedSchool=selectedSchool, selectedSubject=selectedSubject, courses=courses)
+
+
+@dashboard_page.route("/search", methods = ['GET'])
+def search():
+    if not current_user.is_authenticated: 
+        return redirect(url_for('index.home'))
+    
+    search_content = request.args.get('search')
+    courses = database.search(search_content, db)
+    return render_template('courses/dashboard_search.html', courses=courses)
+    
