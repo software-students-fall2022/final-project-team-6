@@ -3,8 +3,8 @@ name: client workflow for testing branches
 on: 
   push:
     branches:
-      - '!main'
       - '*'
+      - '!main'
     
 
 jobs:
