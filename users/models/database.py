@@ -16,11 +16,18 @@ def fetch_all_schools(database):
     all_schools = [school['schoolFullname'] for school in all_schools_in_db]
     return all_schools
 
+def sortFunc(e):
+  return e['subjectFullname']
+
 def fetch_all_subjects(database):
     all_subjects_in_db = database.Schools.find()
 
     all_subjects = []
     all_subjects = [subject['subjects'] for subject in all_subjects_in_db]
+    
+    for subs in all_subjects:
+        subs.sort(key=sortFunc)
+        
     return all_subjects
 
 def get_all_courses_by_school_subject_fullname(school_fullname, subject_fullname, database):
