@@ -62,7 +62,7 @@
 
                 <div class="list-group">
                   <button type="button" class="list-group-item" style="font-weight: bolder; font-family: 'Gill Sans MT Ext Condensed Bold'`">
-                      {{ course.courseName }}
+                      Section {{course.section_code}}: {{ course.sectionName }}
                   </button>
                   <button type="button" class="list-group-item">Instructors: 
                     {% for instructor in course.instructors %} 

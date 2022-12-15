@@ -87,9 +87,14 @@
               
         </style> 
         <div class="course-details">
-            <h1>{{details.subjectAbbr}}-{{details.schoolAbbr}}-{{details.deptCourseId}}: {{ details.courseName }}</h1>
+            <h1>{{details.subjectAbbr}}-{{details.schoolAbbr}}-{{details.deptCourseId}}-{{details.section_code}}: {{ details.sectionName }}</h1>
             <p>Instructor(s): {% for instructor in details.instructors %}
-                {{instructor}}
+                {%set rmp=details.rmpURLs[loop.index0]%}
+                {%if rmp!="https://www.ratemyprofessors.com/"%}
+                    <a href="{{rmp}}" target="_blank">{{instructor}}</a>
+                {%else%}
+                    {{instructor}}
+                {%endif%}
                 {% if not loop.last %}, {% endif %}
             {%endfor%}</p>
             <p>Type: {{ details.type }}</p>
@@ -98,7 +103,9 @@
             <p>Units: {{ details.units }}</p>
             <p>School: {{ details.schoolFullname }}</p>
             <p>Subject: {{ details.subjectFullname }}</p>
-        
+            <p>{{details.description}}</p>
+            <br>
+            <p>{{details.notes}}</p>
             <!-- Overall Rating -->
             <h2>Overall Rating</h2>
             {%if details.overallRating >= 0%}

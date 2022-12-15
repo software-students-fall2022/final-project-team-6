@@ -31,7 +31,7 @@
                 <ul class="dashboard_ul" id="courseList">
                 <li class="dashboard_li">
                     
-                    <p>Course Name: {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{ course.courseName }}</p>
+                    <p>Section {{course.section_code}}: {{ course.sectionName }}</p>
                     <p>Instructors: {% for instructor in course.instructors %} 
                         {{ instructor }}
                         {% if not loop.last %}, {% endif %}
