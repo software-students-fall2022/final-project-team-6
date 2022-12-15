@@ -1,0 +1,51 @@
+{% extends "common/layout.html"%}
+{% block content %}
+
+<div class="row">
+  <h1>Select courses:</h1>
+  <button type="submit" onclick="submit()">Submit</button>
+  <button type="button" onclick="selectAll()">Select All</button>
+  {% for doc in docs %}
+    <form action="/database/update" method="POST">
+      <ul>
+        <li><input type="checkbox" name="courseID" value={{doc.id}}>{{doc.courseName}}</li>
+      </ul>
+    </form>
+  {% endfor %}
+  <script>
+    function selectAll() {
+      // Get all the checkboxes on the page
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      // Loop through the checkboxes and set their checked property to true
+      for (var i = 0; i < checkboxes.length; i++) {
+        checkboxes[i].checked = true;
+      }
+    }
+    function submit() {
+      // Get all the checkboxes on the page
+      var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+      // Loop through the checkboxes and set their checked property to true
+      for (var i = 0; i < checkboxes.length; i++) {
+        if (checkboxes[i].checked === true){
+          var http = new XMLHttpRequest();
+          var url = 'localhost:5000/database';
+          var params = 'courseID'+checkboxes[i].value;
+          http.open('POST', url, true);
+
+          //Send the proper header information along with the request
+          http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+          http.onreadystatechange = function() {//Call a function when the state changes.
+              if(http.readyState == 4 && http.status == 200) {
+                  alert(http.responseText);
+              }
+          }
+          http.send(params);
+        }
+      }
+    }    
+  </script>
+</div>
+{% endblock %}
+
+
