@@ -32,7 +32,10 @@
                 <li class="dashboard_li">
                     
                     <p>Course Name: {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{ course.courseName }}</p>
-                    <p>Instructors: {{ course.instructors }}</p>
+                    <p>Instructors: {% for instructor in course.instructors %} 
+                        {{ instructor }}
+                        {% if not loop.last %}, {% endif %}
+                    {%endfor%}</p>
                     <p>Status: {{ course.status }}</p>
                     {%if course.overallRating >= 0%}
                         <p>Overall Rating: {{ course.overallRating }}</p>

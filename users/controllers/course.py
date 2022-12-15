@@ -18,8 +18,8 @@ def details():
     courseID = request.args.get('courseID')
     course = database.get_course_info_by_course_id(courseID, db)
     
-    print("course: " + str(course))
-    print("course instructors: " + course["instructors"])
+    #print("course: " + str(course))
+    #print("course instructors: " + course["instructors"])
     
     comments = database.get_course_comments(courseID, db)
     for comment in comments:
