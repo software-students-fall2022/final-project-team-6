@@ -25,6 +25,12 @@
               .comment {
                 border: 1px solid #ccc;
                 background-color: #fff;
+                line-height: 1.5;
+                font-family: sans-serif;
+                color: #333;
+                word-wrap: break-word;
+                padding-left: 10px;
+                padding-right: 10px;
               }
               
               h1, h2 {
@@ -46,8 +52,8 @@
               }
               
               .star {
-                  width: 20px;
-                  height: 20px;
+                  width: 16px;
+                  height: 16px;
                   cursor: pointer;
               }
               
@@ -81,15 +87,25 @@
               
         </style> 
         <div class="course-details">
-            <h1>{{details.subjectAbbr}}-{{details.schoolAbbr}}-{{details.deptCourseId}}: {{ details.courseName }}</h1>
-            <p>Instructor(s): {{ details.instructors }}</p>
+            <h1>{{details.subjectAbbr}}-{{details.schoolAbbr}}-{{details.deptCourseId}}-{{details.section_code}}: {{ details.sectionName }}</h1>
+            <p>Instructor(s): {% for instructor in details.instructors %}
+                {%set rmp=details.rmpURLs[loop.index0]%}
+                {%if rmp!="https://www.ratemyprofessors.com/"%}
+                    <a href="{{rmp}}" target="_blank">{{instructor}}</a>
+                {%else%}
+                    {{instructor}}
+                {%endif%}
+                {% if not loop.last %}, {% endif %}
+            {%endfor%}</p>
             <p>Type: {{ details.type }}</p>
             <p>Instruction Mode: {{ details.instructionMode }}</p>
             <p>Location: {{ details.location }}</p>
             <p>Units: {{ details.units }}</p>
             <p>School: {{ details.schoolFullname }}</p>
             <p>Subject: {{ details.subjectFullname }}</p>
-        
+            <p>{{details.description}}</p>
+            <br>
+            <p>{{details.notes}}</p>
             <!-- Overall Rating -->
             <h2>Overall Rating</h2>
             {%if details.overallRating >= 0%}
@@ -137,9 +153,17 @@
             <h2>Comments</h2>
             {% for comment in comments %}
                 <div class="comment">
-                    <p>Username: {{ comment.username }}</p>
-                    <p>Comment: {{ comment.comment }}</p>
-                    <p>Rating: {{ comment.rating }}</p>
+                    <h3>{{ comment.username }}</h3>
+                    <div class="rating">
+                        {% for i in range(1, comment.rating + 1) %}
+                            <img src="../../static/images/filled_star.png" class="star">
+                        {% endfor %}
+                        {% for i in range(comment.rating + 1, 6) %}
+                            <img src="../../static/images/empty_star.png" class="star">
+                        {% endfor %}
+                    </div>
+                    <p>{{ comment.comment }}</p>
+                    
                 </div>
             {% endfor %}
         </div>
