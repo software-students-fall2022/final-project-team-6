@@ -5,7 +5,7 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 import pymongo
 from flask import Flask, render_template, request, Blueprint, redirect, url_for, make_response, session, flash
 from dotenv import dotenv_values
-from models.requestCourses import getCourses
+from modules.requestCourses import getCourses
 
 config = dotenv_values(".env")
 
