@@ -1,9 +1,10 @@
+import sys
+from os.path import dirname, abspath
+sys.path.append(dirname(dirname(abspath(__file__))))
+
 import pymongo
 from flask import Flask, render_template, request, Blueprint, redirect, url_for, make_response, session, flash
 from dotenv import dotenv_values
-from os.path import dirname, abspath
-import sys
-sys.path.append(dirname(dirname(abspath(__file__))))
 from models.requestCourses import getCourses
 
 config = dotenv_values(".env")
@@ -14,17 +15,15 @@ app.secret_key = "secret key"
 
 client = pymongo.MongoClient(config["DB_CONNECTION_STRING"])   
 db=client[config["DB_NAME"]]
-
 url = 'https://schedge.a1liu.com/'
 
 @index_page.route('/')
 def school():
     #only demonstrate school name 
     docs = db.Schools.find({},{ "_id":0,  "subjects":0})
-    docs = db.Schools.find({},{ "_id":0,  "subjects":0})
     return render_template('/courses/schools.html',docs=docs)
 
-@index_page.route('/subjects',methods = ["GET"])
+@index_page.route('/subjects', methods = ["GET"])
 def subject():
     school = request.args.get('schoolAbbr').upper()
     docs = db.Schools.find_one({"schoolAbbr":school}, {"_id":0})
@@ -97,7 +96,7 @@ Target Schema:
     "location" : "Meyer Hall - Room: 122",
     "display" : False,
     "url" : "https://www.ratemyprofessors.com/search/teachers?query=Sanford%20Laurence%20Diehl&sid=U2Nob29sLTY3NQ=="
-    "id" : '6397d5499cbb8d66ff9ade0f'，
+    "id" : '6397d5499cbb8d66ff9ade0f',
     "overallRating" : 1
 }
 """

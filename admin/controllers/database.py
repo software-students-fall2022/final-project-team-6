@@ -1,25 +1,25 @@
+import sys
+from os.path import dirname, join, abspath
+sys.path.append(dirname(dirname(abspath(__file__))))
+
+import json
+import pymongo
+import requests
+
 from flask import Flask, render_template, request, Blueprint, redirect, url_for, make_response, session, flash
 from dotenv import dotenv_values
 from bson.objectid import ObjectId
-import pymongo
-import requests
-import json
-from os.path import dirname, join, abspath
-import sys
-sys.path.append(dirname(dirname(abspath(__file__))))
 from models.requestCourses import getCourses
 
-
 config = dotenv_values(".env")
-
 database_page = Blueprint("database_page", __name__ )
 
 client = pymongo.MongoClient(config["DB_CONNECTION_STRING"])   
 db=client[config["DB_NAME"]]
-
 url = 'https://schedge.a1liu.com/'
 
 schoolDict = {}
+
 @database_page.route('/addAll')
 def addAll():
     schoolAbbrs = db.Schools.find({},{ "_id":0, "schoolFullname":0,"image":0, "subjects":0})
@@ -33,12 +33,12 @@ def addAll():
 
 @database_page.route('/displayAlltrue')
 def displayAlltrue():
-    db.courses.update_many({},{"$set":{"display":True}})
+    db.Courses.update_many({},{"$set":{"display":True}})
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
 
 @database_page.route('/displayAllfalse')
 def displayAllfalse():
-    db.courses.update_many({},{"display":False})
+    db.Courses.update_many({},{"$set":{"display":False}})
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
 
 @database_page.route('/update', methods=['POST'])
