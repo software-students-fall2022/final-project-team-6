@@ -1,5 +1,6 @@
-import requests
 import json
+import requests
+
 def getCourses(db,schoolAbbr,subjectAbbr):
 
     schoolFullname = db.Schools.find_one({"schoolAbbr":schoolAbbr},{"_id":0,"schoolFullname":1})["schoolFullname"]

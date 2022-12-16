@@ -102,6 +102,7 @@ def test_delete_comment_data():
     db.Comments.delete_one({ "username": "hello2" })
     db.Comments.delete_one({ "username": "hello3" })
 '''
+'''
 def test_fetch_all_subjects():
 
     client = pymongo.MongoClient("mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-nyc1-17689-274bdc70.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-17689")  
@@ -125,7 +126,7 @@ def test_fetch_all_subjects():
             check=False
 
     assert check==True, "failed to get all subjects"
-
+'''
 def test_get_course_info_by_course_id():
 
     client = pymongo.MongoClient("mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-nyc1-17689-274bdc70.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-17689")  
