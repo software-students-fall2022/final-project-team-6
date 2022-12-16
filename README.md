@@ -25,7 +25,9 @@ Users can search add,comment and view all the course information
    docker compose up
    ```
 
-2. The admin client will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`. 
+2. The admin client will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`.
+   
+3.  A database container will also be created in your Docker. Make sure your `.env` file has the connection string to your database in the container. i.e. `DB_CONNECTION_STRING=mongodb://db:27017/`
 
 ## Running without Docker
 ### User

@@ -1,5 +1,12 @@
 version: '1'
 services: 
+
+  db:
+    image: mongo:5.0
+    ports: 
+      - "27017:27017"
+
+
   course-client:
     build: ./users
     ports:
