@@ -44,8 +44,6 @@ def displayAllfalse():
 @database_page.route('/update', methods=['POST'])
 def displayUpdate():
     courseID = request.form.get('courseID')
-    print(courseID)
-    print("hello")
     display = str(request.form.get('display'))
     db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':display}}) #update the display field to True or False
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
