@@ -1,15 +1,16 @@
 import sys
-from os.path import dirname, join, abspath
+from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import json
 import pymongo
 import requests
 
-from flask import Flask, render_template, request, Blueprint, redirect, url_for, make_response, session, flash
+from flask import request, Blueprint
 from dotenv import dotenv_values
-from bson.objectid import ObjectId
-from models.requestCourses import getCourses
+from modules.requestCourses import getCourses
+from modules.updateDisplay import update
+
 
 config = dotenv_values(".env")
 database_page = Blueprint("database_page", __name__ )
@@ -45,9 +46,9 @@ def displayAllfalse():
 def displayUpdate():
     courseID = request.form.get('courseID')
     display = str(request.form.get('display'))
-    db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':display}}) #update the display field to True or False
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
-
+    return update(db,courseID,display)
+    #db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':display}}) #update the display field to True or False
+    
 
 @database_page.route('/createSchool')
 def createSchoolsCollection():

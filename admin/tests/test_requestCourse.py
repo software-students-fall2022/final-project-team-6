@@ -7,7 +7,7 @@ import json
 import pymongo
 import requests
 from dotenv import dotenv_values
-from models.requestCourses import getCourses
+from modules.requestCourses import getCourses
 
 config = dotenv_values(".env")
 client = pymongo.MongoClient(config["DB_CONNECTION_STRING"])   
