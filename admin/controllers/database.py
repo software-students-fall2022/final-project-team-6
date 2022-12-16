@@ -46,8 +46,9 @@ def displayUpdate():
     courseID = request.form.get('courseID')
     print(courseID)
     print("hello")
-    type = str(request.form.get('type'))
-    db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':type}}) #update the display field to True or False
+    display = str(request.form.get('display'))
+    db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':display}}) #update the display field to True or False
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
 
 
 @database_page.route('/createSchool')
@@ -77,3 +78,4 @@ def createSchoolsCollection():
             if school in schoolDict.keys():
                 db.Schools.update_one({'schoolAbbr': school}, {'$push': {'subjects': {"subjectAbbr":abbr,"subjectFullname":subjects[school][abbr]["name"],"image":"https://picsum.photos/id/" + str(i)+ "/200/150"}}},upsert=True)
                 i += 1
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
