@@ -1,3 +1,6 @@
+![Admin Status](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/admin_workflow.yml/badge.svg?event=push)
+![Client Status](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/client_workflow.yml/badge.svg?event=push)
+
 # Overview
 
 This is a course forum with Albert courses data, comments and rate my professor link
