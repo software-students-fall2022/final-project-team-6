@@ -61,24 +61,36 @@
                 </li>
 
                 <div class="list-group">
-                  <button type="button" class="list-group-item" style="font-weight: bolder; font-family: 'Gill Sans MT Ext Condensed Bold'`">
+                  <li class="list-group-item" style="font-weight: bolder; font-family: 'Gill Sans MT Ext Condensed Bold'">
                       Section {{course.section_code}}: {{ course.sectionName }}
-                  </button>
-                  <button type="button" class="list-group-item">Instructors: 
+                  </li>
+                  <button type="button" class="list-group-item">Instructors:
                     {% for instructor in course.instructors %} 
                         {{ instructor }}
                         {% if not loop.last %}, {% endif %}
                     {%endfor%}
                   </button>
-                  <button type="button" class="list-group-item">Type: {{ course.type }}</button>
-                  <button type="button" class="list-group-item">Status: {{ course.status }}</button>
-                  <button type="button" class="list-group-item">
+                  <li class="list-group-item">Type: {{ course.type }}</li>
+                <div>
+                    {% if course.status == "Closed" %}
+                        <li class="list-group-item">
+                            Status: {{ course.status }}
+                            <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+                        </li>
+                    {% else %}
+                        <li type="button" class="list-group-item">
+                            Status: {{ course.status }}
+                            <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                        </li>
+                    {% endif %}
+                </div>
+                  <li class="list-group-item">
                       {%if course.overallRating >= 0%}
                         <p>Overall Rating: {{ course.overallRating }}</p>
                     {%else%}
                         <p>Overall Rating: N/A</p>
                     {%endif%}
-                  </button>
+                  </li>
                 </div>
 
 

@@ -4,6 +4,19 @@ https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/T
 {% extends "common/layout.html"%}
 {% block content %}
 
+<form action="/database/addAll" method="GET">
+    <button type="submit" class="submit-button">Refresh All Courses from Schedge API</button>
+</form>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
 <div class="row">
 
     {% for doc in docs %}
