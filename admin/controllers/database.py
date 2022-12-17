@@ -6,16 +6,16 @@ import json
 import pymongo
 import requests
 from bson import json_util
-from flask import request, Blueprint
+from flask import request, Blueprint, redirect, url_for, flash
 from dotenv import dotenv_values
 from modules.requestCourses import getCourses
 from modules.database import update,show,disable,addAllCourses
 from bson import ObjectId
 from .comment import Comment
-
+from concurrent.futures import ThreadPoolExecutor
 config = dotenv_values(".env")
 database_page = Blueprint("database_page", __name__ )
-
+executor = ThreadPoolExecutor(2)
 
 client = pymongo.MongoClient(config["DB_CONNECTION_STRING"])   
 db=client[config["DB_NAME"]]
@@ -24,9 +24,26 @@ url = 'https://schedge.a1liu.com/'
 
 schoolDict = {}
 
-@database_page.route('/addAll')
+@database_page.route('/createSchool')
+def createSchoolsCollection():
+    schoolsAPI = requests.get(url+"schools")
+    schoolsAPI.encoding = 'utf-8'
+    schools  = json.loads(str(schoolsAPI.text))
+
+    subjectsAPI = requests.get(url+"subjects")
+    subjectsAPI.encoding = 'utf-8'
+    subjects  = json.loads(str(subjectsAPI.text))
+    
+    update_school_subjects(schools, subjects, db)
+    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
+
+
+@database_page.route('/addAll', methods=['GET'])
 def addAll():
-    return addAllCourses(db,test = False)
+    createSchoolsCollection()
+    executor.submit(addAllCourses, db, False)
+    flash('Refresh complete! Courses are currently being added to the database. It will take about 30 minutes to add all courses to the database.')
+    return redirect(url_for('index_page.school'))
 
 @database_page.route('/displayAlltrue')
 def displayAlltrue():
@@ -64,18 +81,6 @@ def update_school_subjects(schools, subjects, database):
                     i += 1
     
 
-@database_page.route('/createSchool')
-def createSchoolsCollection():
-    schoolsAPI = requests.get(url+"schools")
-    schoolsAPI.encoding = 'utf-8'
-    schools  = json.loads(str(schoolsAPI.text))
-
-    subjectsAPI = requests.get(url+"subjects")
-    subjectsAPI.encoding = 'utf-8'
-    subjects  = json.loads(str(subjectsAPI.text))
-    
-    update_school_subjects(schools, subjects, db)
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
 
     
 def get_course_info_by_course_id(course_id, database):

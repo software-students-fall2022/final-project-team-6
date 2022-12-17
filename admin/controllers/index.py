@@ -5,7 +5,7 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 import pymongo
 from flask import Flask, render_template, request, Blueprint, redirect, url_for, make_response, session, flash
 from dotenv import dotenv_values
-from modules.requestCourses import getCourses
+from modules.requestCourses import getCourses, get_courses_from_db
 
 config = dotenv_values(".env")
 
@@ -36,10 +36,9 @@ def course():
     schoolAbbr = request.args.get("schoolAbbr").upper()
     subjectAbbr = request.args.get("subjectAbbr").upper()
 
-    docs = getCourses(db,schoolAbbr,subjectAbbr)
+    docs = get_courses_from_db(db,schoolAbbr,subjectAbbr)
 
     return render_template('/courses/courses.html',docs=docs)
-
 
 
 """

@@ -65,3 +65,14 @@ def getCourses(db,schoolAbbr,subjectAbbr):
             doc["id"] = str(obj["_id"])
             docs.append(doc)
     return docs
+
+
+
+def get_courses_from_db(db, schoolAbbr, subjectAbbr):
+    schoolAbbr = schoolAbbr.upper()
+    subjectAbbr = subjectAbbr.upper()
+    docs = []
+    for doc in db.Courses.find({"schoolAbbr":schoolAbbr, "subjectAbbr":subjectAbbr}):
+        doc["id"] = str(doc["_id"])
+        docs.append(doc)
+    return docs
