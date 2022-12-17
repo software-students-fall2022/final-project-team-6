@@ -26,7 +26,7 @@ def reset(): #pragma: no cover
 def reset_database(): #pragma: no cover
     reset()
 
-
+'''
 def test_add_user1(reset_database): #pragma: no cover
     
     client = pymongo.MongoClient("mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-nyc1-17689-274bdc70.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-17689")
@@ -39,7 +39,7 @@ def test_add_user1(reset_database): #pragma: no cover
     expected_result = User("2333","Danzai", "nyu", "cs")
 
     assert user_info.username == expected_result.username, "failed add user test"
-
+'''
    
 
 '''
@@ -81,9 +81,9 @@ def test_get_user1(reset_database): #pragma: no cover
     #client = pymongo.MongoClient(config["DB_CONNECTION_STRING"]) 
     db=client["Test"]
     #login.add_user_to_db("Vincent2"", "00000", "Harvard", "econ", db)
-    get_user = login.get_user_object_in_db("Vincent2", db)
+    get_user = login.get_user_object_in_db("ccc", db)
 
-    expected_result = User("00000","Vincent2", "Harvard", "econ")
+    expected_result = User("00000","ccc", "ccc", "ccc")
 
     assert get_user.school== expected_result.school
 

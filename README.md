@@ -1,3 +1,6 @@
+![Admin Status](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/admin_workflow.yml/badge.svg?event=push)
+![Client Status](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/client_workflow.yml/badge.svg?event=push)
+
 # Overview
 
 This is a course forum with Albert courses data, comments and rate my professor link
@@ -25,7 +28,9 @@ Users can search add,comment and view all the course information
    docker compose up
    ```
 
-2. The admin client will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`. 
+2. The admin client will run at `127.0.0.1:7001`. The users client will run at `127.0.0.1:6001`.
+   
+3.  A database container will also be created in your Docker. Make sure your `.env` file has the connection string to your database in the container. i.e. `DB_CONNECTION_STRING=mongodb://db:27017/`
 
 ## Running without Docker
 ### User
