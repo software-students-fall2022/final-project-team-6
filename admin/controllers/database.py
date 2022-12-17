@@ -102,6 +102,25 @@ def get_course_comments(course_id, database):
             comments_list.append(Comment(username = comment["username"], comment = comment["comment"], rating = int(comment["rating"]), comment_id=str(comment["comment_id"])))
     return comments_list
 
+
+def calculate_overall_ratings(comments_list):
+    if(len(comments_list) == 0):
+        return -1
+    total = 0
+    for comment in comments_list:
+        total += comment.rating
+    return round(total / len(comments_list),1)
+
+
+def update_overall_rating(course_id, database):
+    comments_list = get_course_comments(course_id, database)
+    ratings = calculate_overall_ratings(comments_list)
+    if database.Comments.find_one({"course_id": ObjectId(course_id)}) == None:
+       return
+    database.Comments.update_one({"course_id": ObjectId(course_id)}, {"$set": {"overall_rating": ratings}})
+    database.Courses.update_one({"_id": ObjectId(course_id)}, {"$set": {"overallRating": ratings}})
+
+
 def delete_course_comment(course_id, comment_id, database):
     course_comments = database.Comments.find_one({"course_id": ObjectId(course_id)})
     if(course_comments == None):
@@ -114,5 +133,6 @@ def delete_course_comment(course_id, comment_id, database):
             if(str(comment["comment_id"]) == comment_id):
                 comments.remove(comment)
                 database.Comments.update_one({"course_id": ObjectId(course_id)}, {'$set': {"comments": comments}})
+                update_overall_rating(course_id, database)
                 return True
     return False
