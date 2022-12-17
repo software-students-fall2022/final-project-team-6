@@ -89,7 +89,6 @@ def get_course_comments(course_id, database):
     course_comments = database.Comments.find_one({"course_id": ObjectId(course_id)})
     if(course_comments == None):
         return []
-    
     comments = course_comments["comments"]
     comments_list = []
     if(comments != None):
