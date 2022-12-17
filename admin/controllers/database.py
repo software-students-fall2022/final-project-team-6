@@ -9,44 +9,35 @@ import requests
 from flask import request, Blueprint
 from dotenv import dotenv_values
 from modules.requestCourses import getCourses
-from modules.updateDisplay import update
+from modules.database import update,show,disable,addAllCourses
 
 
 config = dotenv_values(".env")
 database_page = Blueprint("database_page", __name__ )
 
+
 client = pymongo.MongoClient(config["DB_CONNECTION_STRING"])   
 db=client[config["DB_NAME"]]
+
 url = 'https://schedge.a1liu.com/'
 
 schoolDict = {}
 
 @database_page.route('/addAll')
 def addAll():
-    schoolAbbrs = db.Schools.find({},{ "_id":0, "schoolFullname":0,"image":0, "subjects":0})
-    for school in schoolAbbrs:
-        schoolAbbr = school["schoolAbbr"]
-        docs = db.Schools.find_one({"schoolAbbr":schoolAbbr}, {"_id":0})
-        subjects = docs["subjects"]
-        for subject in subjects:
-            getCourses(db,schoolAbbr,subject["subjectAbbr"])
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
+    return addAllCourses(db,test = False)
 
 @database_page.route('/displayAlltrue')
 def displayAlltrue():
-    db.Courses.update_many({},{"$set":{"display":True}})
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
+    return show(db)
 
 @database_page.route('/displayAllfalse')
 def displayAllfalse():
-    db.Courses.update_many({},{"$set":{"display":False}})
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
+    return disable(db)
 
 @database_page.route('/update', methods=['POST'])
 def displayUpdate():
-    courseID = request.form.get('courseID')
-    display = str(request.form.get('display'))
-    return update(db,courseID,display)
+    return update(db,    courseID = request.form.get('courseID'),    display = str(request.form.get('display')))
     #db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':display}}) #update the display field to True or False
     
 
