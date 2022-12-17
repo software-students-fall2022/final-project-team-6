@@ -10,6 +10,7 @@ import pymongo
 from bson import ObjectId
 
 
+
 def test_get_course_comments():
     
     client = pymongo.MongoClient("mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-nyc1-17689-274bdc70.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-17689")
@@ -18,11 +19,18 @@ def test_get_course_comments():
 
     course_comments = database.get_course_comments("6397d5499cbb8d66ff9ade0f",db)
 
+def test_get_course_info_by_course_id():
+
     real_comment=[]
+
 
     for i in range (len(course_comments)):
 
         real_comment.append(course_comments[i].comment)
+        
+    output=database.get_course_info_by_course_id("639aa34c9cbb8d66ffcf1a35", db)
+
+    expected_result="Quantitative Reasoning: Prob,Stats & Decisn-Mkng 001"
 
     expected_result = ["I love this class", "waeewa","eee"]
 
@@ -53,6 +61,11 @@ def test_update_overall_rating():
 
     assert rating["overall_rating"]== expected_value, "fail to test overall rating"
 
+    check = True
+    
+    for i in range(0,len(expected_result)):
+        
+        if expected_result[i] not in school_info:
 
 def test_search():
 
@@ -77,6 +90,9 @@ def test_calculate_overall_ratings():
 
     result=database.calculate_overall_ratings(comments_list)
 
+    expected_result = ["Quantitative Reasoning: Prob,Stats & Decisn-Mkng 001", "Life Science: Earth, Life & Time 001", "Physical Science: Energy & The Environment 010"]
+
+
     expected_result=4.7
 
     assert result==expected_result, "fail to calculate overall ratings"
@@ -90,11 +106,15 @@ def test_add_comment():
 
     database.add_comment("6397d5c09cbb8d66ff9ae84c", "hello4", "I love this class", 5, db)
 
+
     comment_list=database.get_course_comments("6397d5c09cbb8d66ff9ae84c", db)
 
     real_comment=[]
 
     for i in range (len(comment_list)):
+
+    expected_result = []
+
 
         real_comment.append(comment_list[i].comment)
 
