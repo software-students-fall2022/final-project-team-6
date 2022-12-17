@@ -81,9 +81,9 @@ def test_get_user1(reset_database): #pragma: no cover
     #client = pymongo.MongoClient(config["DB_CONNECTION_STRING"]) 
     db=client["Test"]
     #login.add_user_to_db("Vincent2"", "00000", "Harvard", "econ", db)
-    get_user = login.get_user_object_in_db("Vincent2", db)
+    get_user = login.get_user_object_in_db("ccc", db)
 
-    expected_result = User("00000","Vincent2", "Harvard", "econ")
+    expected_result = User("00000","ccc", "ccc", "ccc")
 
     assert get_user.school== expected_result.school
 
