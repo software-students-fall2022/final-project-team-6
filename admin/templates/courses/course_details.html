@@ -31,6 +31,7 @@
                 word-wrap: break-word;
                 padding-left: 10px;
                 padding-right: 10px;
+                padding-bottom: 10px;
               }
               
               h1, h2 {
@@ -148,7 +149,11 @@
                         {% endfor %}
                     </div>
                     <p>{{ comment.comment }}</p>
-                    
+                    <form action="/course/delete_course" method="POST">
+                        <input type="hidden" name="comment_id" value={{comment.comment_id}}>
+                        <input type="hidden" name="course_id" value={{details._id}}>
+                        <button type="submit" class="submit-button">Delete this comment</button>
+                    </form>
                 </div>
             {% endfor %}
         </div>

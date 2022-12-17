@@ -19,6 +19,7 @@ client = pymongo.MongoClient("mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-
 db=client["Test"]
 
 class Tests:
+    
     def test_addAll(self):
         response = addAllCourses(db,test=True)
         assert response == ('{"success": true}', 200, {'ContentType': 'application/json'})

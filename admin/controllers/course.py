@@ -14,3 +14,11 @@ def details():
     course = database.get_course_info_by_course_id(courseID, db)  
     comments = database.get_course_comments(courseID, db)
     return render_template('courses/course_details.html', details = course, comments = comments)
+
+@course_page.route("/delete_course", methods = ['POST'])
+def delete_course():
+    commentID = request.form.get('comment_id')
+    courseID = request.form.get('course_id')
+    database.delete_course_comment(courseID,commentID, db)  
+    
+    return redirect(url_for('course.details', courseID = courseID))
