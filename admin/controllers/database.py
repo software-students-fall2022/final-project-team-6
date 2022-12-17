@@ -9,7 +9,7 @@ from bson import json_util
 from flask import request, Blueprint, redirect, url_for, flash
 from dotenv import dotenv_values
 from modules.requestCourses import getCourses
-from modules.database import update,show,disable,addAllCourses
+from modules.editDatabase import update,show,disable,addAllCourses
 from bson import ObjectId
 from .comment import Comment
 from concurrent.futures import ThreadPoolExecutor
@@ -91,19 +91,16 @@ def get_course_info_by_course_id(course_id, database):
     course_info = json_util.loads(json_util.dumps(course_info))
     return course_info
 
-
 def get_course_comments(course_id, database):
     course_comments = database.Comments.find_one({"course_id": ObjectId(course_id)})
     if(course_comments == None):
         return []
-    
     comments = course_comments["comments"]
     comments_list = []
     if(comments != None):
         for comment in comments:
             comments_list.append(Comment(username = comment["username"], comment = comment["comment"], rating = int(comment["rating"]), comment_id=str(comment["comment_id"])))
     return comments_list
-
 
 def calculate_overall_ratings(comments_list):
     if(len(comments_list) == 0):
@@ -113,15 +110,14 @@ def calculate_overall_ratings(comments_list):
         total += comment.rating
     return round(total / len(comments_list),1)
 
-
 def update_overall_rating(course_id, database):
     comments_list = get_course_comments(course_id, database)
     ratings = calculate_overall_ratings(comments_list)
     if database.Comments.find_one({"course_id": ObjectId(course_id)}) == None:
-       return
+       return -1
     database.Comments.update_one({"course_id": ObjectId(course_id)}, {"$set": {"overall_rating": ratings}})
     database.Courses.update_one({"_id": ObjectId(course_id)}, {"$set": {"overallRating": ratings}})
-
+    return 0
 
 def delete_course_comment(course_id, comment_id, database):
     course_comments = database.Comments.find_one({"course_id": ObjectId(course_id)})
