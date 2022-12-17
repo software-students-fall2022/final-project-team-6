@@ -40,6 +40,28 @@ def displayAllfalse():
 def displayUpdate():
     return update(db,    courseID = request.form.get('courseID'),    display = str(request.form.get('display')))
     #db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':display}}) #update the display field to True or False
+
+def update_school_subjects(schools, subjects, database):
+    i = 10
+    for abbr in schools.keys():
+        key = {"schoolAbbr": abbr}
+        data = {
+            "$set":{"schoolFullname": schools[abbr]["name"], "image":"https://picsum.photos/id/" + str(i)+ "/200/150","subjects": []}
+           
+        }
+        if abbr != "NT" and abbr != "ND" and abbr != "US" and abbr != "DC":
+            if not database.Schools.find_one(key):
+                database.Schools.update_one(key, data, upsert=True)
+            i += 1
+            schoolDict[abbr] = schools[abbr]["name"]
+
+    for school in subjects.keys():
+        for abbr in subjects[school].keys():
+            if school in schoolDict.keys():
+               
+                if (database.Schools.find_one({'schoolAbbr': school, 'subjects': {'$elemMatch': {'subjectAbbr': abbr}}}) == None):
+                    database.Schools.update_one({'schoolAbbr': school}, {'$push': {'subjects': {"subjectAbbr":abbr,"subjectFullname":subjects[school][abbr]["name"],"image":"https://picsum.photos/id/" + str(i)+ "/200/150"}}},upsert=True)
+                    i += 1
     
 
 @database_page.route('/createSchool')
@@ -51,27 +73,14 @@ def createSchoolsCollection():
     subjectsAPI = requests.get(url+"subjects")
     subjectsAPI.encoding = 'utf-8'
     subjects  = json.loads(str(subjectsAPI.text))
-
-    i = 10
-    for abbr in schools.keys():
-        key = {"schoolAbbr": abbr}
-        data = {
-            "$set":{"schoolFullname": schools[abbr]["name"], "image":"https://picsum.photos/id/" + str(i)+ "/200/150"}
-        }
-        if abbr != "NT" and abbr != "ND" and abbr != "US" and abbr != "DC":
-            
-            db.Schools.update_one(key, data, upsert=True)
-            i += 1
-            schoolDict[abbr] = schools[abbr]["name"]
-
-    for school in subjects.keys():
-        for abbr in subjects[school].keys():
-            if school in schoolDict.keys():
-                db.Schools.update_one({'schoolAbbr': school}, {'$push': {'subjects': {"subjectAbbr":abbr,"subjectFullname":subjects[school][abbr]["name"],"image":"https://picsum.photos/id/" + str(i)+ "/200/150"}}},upsert=True)
-                i += 1
+    
+    update_school_subjects(schools, subjects, db)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
 
 
+    
+                
+    
 def get_course_info_by_course_id(course_id, database):
     print("course id: " + course_id)
     course_info = database.Courses.find_one({"_id": ObjectId(course_id)})
