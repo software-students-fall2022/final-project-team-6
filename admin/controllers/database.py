@@ -82,17 +82,7 @@ def update_school_subjects(schools, subjects, database):
     
 
 
-<<<<<<< HEAD
-    subjectsAPI = requests.get(url+"subjects")
-    subjectsAPI.encoding = 'utf-8'
-    subjects  = json.loads(str(subjectsAPI.text))
     
-    update_school_subjects(schools, subjects, db)
-    return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
-
-=======
-    
->>>>>>> main
 def get_course_info_by_course_id(course_id, database):
     print("course id: " + course_id)
     course_info = database.Courses.find_one({"_id": ObjectId(course_id)})
