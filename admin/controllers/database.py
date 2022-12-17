@@ -77,9 +77,6 @@ def createSchoolsCollection():
     update_school_subjects(schools, subjects, db)
     return json.dumps({'success':True}), 200, {'ContentType':'application/json'}  
 
-
-    
-                
     
 def get_course_info_by_course_id(course_id, database):
     print("course id: " + course_id)
