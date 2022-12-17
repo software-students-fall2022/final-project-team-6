@@ -1,0 +1,159 @@
+{% extends "common/layout.html"%}
+{% block content %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Course Details</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <style>
+            .course-details {
+                font-family: sans-serif;
+                margin: 20px;
+                padding: 20px;
+                background-color: #eee;
+              }
+              
+              .comment {
+                border: 1px solid #ccc;
+                background-color: #fff;
+                line-height: 1.5;
+                font-family: sans-serif;
+                color: #333;
+                word-wrap: break-word;
+                padding-left: 10px;
+                padding-right: 10px;
+              }
+              
+              h1, h2 {
+                margin: 10px 0;
+                font-weight: bold;
+              }
+              
+              
+              .comment-form {
+                  margin: 20px;
+                  padding: 20px;
+                  background-color: #eee;
+              }
+              
+              .rating {
+                  display: flex;
+                  align-items: center;
+                  margin-bottom: 10px;
+              }
+              
+              .star {
+                  width: 16px;
+                  height: 16px;
+                  cursor: pointer;
+              }
+              
+              textarea {
+                  display: block;
+                  width: 100%;
+                  height: 100px;
+                  margin-bottom: 10px;
+                  padding: 10px;
+                  font-size: 14px;
+                  border: 1px solid #ccc;
+                  resize: none;
+              }
+              
+              .submit-button {
+                  display: block;
+                  width: 100%;
+                  padding: 10px;
+                  font-size: 14px;
+                  cursor: pointer;
+                  background-color: #333;
+                  color: #fff;
+                  border: none;
+              }
+              
+              .submit-button:disabled {
+                  background-color: #ccc;
+                  color: #333;
+                  cursor: not-allowed;
+              }
+              
+        </style> 
+        <div class="course-details">
+            <h1>{{details.subjectAbbr}}-{{details.schoolAbbr}}-{{details.deptCourseId}}-{{details.section_code}}: {{ details.sectionName }}</h1>
+            <p>Instructor(s): {% for instructor in details.instructors %}
+                {%set rmp=details.rmpURLs[loop.index0]%}
+                {%if rmp!="https://www.ratemyprofessors.com/"%}
+                    <a href="{{rmp}}" target="_blank">{{instructor}}</a>
+                {%else%}
+                    {{instructor}}
+                {%endif%}
+                {% if not loop.last %}, {% endif %}
+            {%endfor%}</p>
+            <p>Type: {{ details.type }}</p>
+            <p>Instruction Mode: {{ details.instructionMode }}</p>
+            <p>Location: {{ details.location }}</p>
+            <p>Units: {{ details.units }}</p>
+            <p>School: {{ details.schoolFullname }}</p>
+            <p>Subject: {{ details.subjectFullname }}</p>
+            <p>{{details.description}}</p>
+            <br>
+            <p>{{details.notes}}</p>
+            <!-- Overall Rating -->
+            <h2>Overall Rating</h2>
+            {%if details.overallRating >= 0%}
+             <p>{{ details.overallRating }}</p>
+            {%else%}
+                <p>N/A</p>
+            {%endif%}
+
+            
+            
+            <script>
+                // Function to fill the stars up to the selected number
+                function fillStars(num) {
+                    // Get all the star images
+                    var stars = document.querySelectorAll(".star");
+                    // Loop through the stars and fill up to the selected number
+                    for (var i = 0; i < num; i++) {
+                        stars[i].src = "../../static/images/filled_star.png";
+                    }
+                    for(var i = num; i < 5; i++) {
+                        stars[i].src = "../../static/images/empty_star.png";
+                    }
+                    // Set the hidden input value with the selected number of stars
+                    document.querySelector("#rating").value = num;
+                    // Enable the submit button
+                    document.querySelector(".submit-button").disabled = false;
+                }
+            </script>
+            <!-- Comments -->
+            <h2>Comments</h2>
+            {% for comment in comments %}
+                <div class="comment">
+                    <h3>{{ comment.username }}</h3>
+                    <div class="rating">
+                        {% for i in range(1, comment.rating + 1) %}
+                            <img src="../../static/images/filled_star.png" class="star">
+                        {% endfor %}
+                        {% for i in range(comment.rating + 1, 6) %}
+                            <img src="../../static/images/empty_star.png" class="star">
+                        {% endfor %}
+                    </div>
+                    <p>{{ comment.comment }}</p>
+                    
+                </div>
+            {% endfor %}
+        </div>
+    </body>
+    
+</html>
+
+{% endblock %}

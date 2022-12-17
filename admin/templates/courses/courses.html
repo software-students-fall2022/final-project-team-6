@@ -8,7 +8,10 @@
   {% for doc in docs %}
     <form action="/database/update" method="POST">
       <ul>
-        <li><input type="checkbox" name="courseID" value={{doc.id}}>{{doc.courseName}}</li>
+        <li>
+          <input type="checkbox" name="courseID" value={{doc.id}}>
+          <a href="/course/details?courseID={{doc.id}}" target="_blank">{{doc.courseName}}</a> 
+          </li>
       </ul>
     </form>
   {% endfor %}
