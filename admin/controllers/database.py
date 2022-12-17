@@ -99,5 +99,20 @@ def get_course_comments(course_id, database):
     comments_list = []
     if(comments != None):
         for comment in comments:
-            comments_list.append(Comment(username = comment["username"], comment = comment["comment"], rating = int(comment["rating"])))
+            comments_list.append(Comment(username = comment["username"], comment = comment["comment"], rating = int(comment["rating"]), comment_id=str(comment["comment_id"])))
     return comments_list
+
+def delete_course_comment(course_id, comment_id, database):
+    course_comments = database.Comments.find_one({"course_id": ObjectId(course_id)})
+    if(course_comments == None):
+        return False
+    
+    comments = course_comments["comments"]
+   
+    if(comments != None):
+        for comment in comments:
+            if(str(comment["comment_id"]) == comment_id):
+                comments.remove(comment)
+                database.Comments.update_one({"course_id": ObjectId(course_id)}, {'$set': {"comments": comments}})
+                return True
+    return False

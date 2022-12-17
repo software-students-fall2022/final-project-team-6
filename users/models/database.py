@@ -80,7 +80,7 @@ def add_comment(course_id, username, comment, rating, database):
         database.Comments.insert_one({"course_id": ObjectId(course_id), "comments": [], "overall_rating": -1})
         
     #add a comment to the beginning of the comments list
-    database.Comments.update_one({"course_id": ObjectId(course_id)}, {"$push": {"comments": {"$each": [{"username": username, "comment": comment, "rating": rating}], "$position": 0}}})
+    database.Comments.update_one({"course_id": ObjectId(course_id)}, {"$push": {"comments": {"$each": [{"username": username, "comment": comment, "rating": rating, "comment_id": ObjectId()}], "$position": 0}}})
     
     update_overall_rating(course_id, database)
     return
