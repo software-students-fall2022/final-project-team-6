@@ -9,9 +9,8 @@ import requests
 from dotenv import dotenv_values
 from modules.requestCourses import getCourses
 
-config = dotenv_values(".env")
-client = pymongo.MongoClient(config["DB_CONNECTION_STRING"])   
-db=client[config["DB_NAME"]]
+client = pymongo.MongoClient("mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-nyc1-17689-274bdc70.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-17689")   
+db=client["Test"]
 
 class Tests:
     def test_getCourses_csci_ua(self):

@@ -3,6 +3,9 @@ import requests
 
 def getCourses(db,schoolAbbr,subjectAbbr):
 
+    schoolAbbr = schoolAbbr.upper()
+    subjectAbbr = subjectAbbr.upper()
+    
     schoolFullname = db.Schools.find_one({"schoolAbbr":schoolAbbr},{"_id":0,"schoolFullname":1})["schoolFullname"]
     subjectFullname = db.Schools.find_one({"schoolAbbr":schoolAbbr},{"_id":0,"subjects":{"$elemMatch":{"subjectAbbr":subjectAbbr}}})["subjects"][0]["subjectFullname"]
 
