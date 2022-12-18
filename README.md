@@ -113,6 +113,7 @@ Schools:
 {
     "schoolAbbr" : str,
     "schoolFullname" : str,
+    "image": str (url)
     "subjects" : [
         {
             "subjectAbbr" : str,
@@ -127,19 +128,33 @@ Course:
 
 ```javascript
 {  
-    "deptCourseId" : str,
-    "registrationNumber" : float,
-    "instructors" : str,
-    "type" : str,
-    "status" : str,
-    "instructionMode" : str,
-    "location" : str,
-    "units" : float,
-    "schoolAbbr" : str,
+   "courseName" : str,
     "schoolFullname" : str,
-    "subjectAbbr" :str,
+    "campus" : str,
+    "deptCourseId" : str,
+    "description" : str,
+    "display" : boolean,
+    "grading" : str,
+    "instructionMode" : str,
+    "instructors" : [
+        str
+    ],
+    "location" : str,
+    "notes" : str,
+    "overallRating" : int,
+    "rawCourseName" : str,
+    "registrationNumber" : int,
+    "rmpURLs" : [
+        str
+    ],
+    "schoolAbbr" : str
+    "sectionName" : str
+    "section_code" : str,
+    "status" : str,
+    "subjectAbbr" : str,
     "subjectFullname" : str,
-    "courseName" : str 
+    "type" : str,
+    "units" : float
 }
 ```
 
@@ -151,9 +166,11 @@ Comments:
         {
             "username" : str,
             "comment" : str,
-            "rating" : str
+            "rating" : str,
+            "comment_id": ObjectId
         }
-    ]
+    ],
+    "overall_rating": float
 }
 ```
 # File Structure
