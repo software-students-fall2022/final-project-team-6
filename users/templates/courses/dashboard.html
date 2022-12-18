@@ -65,10 +65,10 @@
 
                             <div class="list-group">
                             <li class="list-group-item" style="font-weight: bolder; font-family: 'Gill Sans MT Ext Condensed Bold'">
-                                Section {{course.section_code}}: {{ course.sectionName }}
-                                <form class="form-horizontal" action="/course/details" method="GET">
+                                <form action="/course/details" method="GET">
+                                    <label>Section {{course.section_code}}: {{ course.sectionName }}</label>
                                     <input type="hidden" name="courseID" value="{{course._id}}">
-                                    <button class="btn btn-default" type="submit">
+                                    <button class="btn btn-default btn-sm" type="submit">
                                         <span class="glyphicon glyphicon-edit"></span> <small>Details</small>
                                     </button>
                                 </form>
