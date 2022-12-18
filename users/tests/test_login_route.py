@@ -30,8 +30,16 @@ def test_sign_up_route():
     
     assert response.status_code == 200, "failed signup test"
     
-    
-    
+def test_log_out():
+    response = app.test_client().post("/login/logout", follow_redirects=True)
+    assert response.status_code == 200, "failed log out test"
+
+'''
+def test_submit_comment():
+    response = app.test_client().post("/submit_comment", data = {"rating": "1.0", "comment":"EZ", "course_id":"12345"}, follow_redirects=True)
+        
+    assert response.status_code == 200, "failed submit_comment test"
+'''
 def test_comment():
     comment = Comment(username= "Danzai", comment= "This is a comment", rating= 5)
     assert comment.username == "Danzai", "failed comment test"
