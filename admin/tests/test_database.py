@@ -104,7 +104,7 @@ class Tests:
         assert -1 == calculate_overall_ratings(comments_list)
 
     def test_update_overall_rating(self):
-        pass
+        assert update_overall_rating("639ab2579cbb8d66ffd0980e",db) == 0
 
     def test_update_overall_rating_fail(self):
         assert -1 == update_overall_rating("639d0ad69cbb8d66ff07f51f", db)
