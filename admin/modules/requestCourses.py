@@ -48,7 +48,7 @@ def getCourses(db,schoolAbbr,subjectAbbr):
                 doc["instructionMode"] = "TBA"
             doc["units"] = section["maxUnits"]
             doc["location"] = section["location"]
-            doc["display"] = True
+            doc["display"] = False
             doc["rmpURLs"] = []
             doc["instructors"] = []
             doc["overallRating"] = -1
