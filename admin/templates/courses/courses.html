@@ -66,6 +66,7 @@
   }
 </style>
 
+
 <form action="/subjects" method="GET" id="form">
   <input type="hidden" name="schoolAbbr" value="{{schoolAbbr}}">
     <button type="submit" class="submit-button">
@@ -73,10 +74,13 @@
     </button>
 </form>
 
+    <br>
+
 <label class="switch">
   <input type="checkbox" id="displayToggle">
   <span class="slider"></span>
 </label>
+
 <label for="toggle" id="toggleLabel" style="margin-left: 10px;">Showing: 
   {%if display == true or display == "true" %}
     Displayed Courses
@@ -84,7 +88,6 @@
     Hidden Courses
   {% endif %}
 </label>
-
 
     <div class="panel panel-default">
         <div class="panel-heading">
@@ -102,7 +105,9 @@
                 <button type="submit" onclick="submit()" class="btn btn-default">Submit</button>
                 <button type="submit" onclick="selectAll()" class="btn btn-default">Select All</button>
                 <button type="submit" onclick="unselectAll()" class="btn btn-default">Unselect All</button>
+            <br>
             </div>
+
 
             {% for doc in docs %}
                 <ul>
