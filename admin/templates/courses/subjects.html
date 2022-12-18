@@ -4,8 +4,10 @@ https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/T
 {% extends "common/layout.html"%}
 {% block content %}
 <form action="/" method="GET" id="form">
-    <input type="submit" value="Back">
-  </form>
+    <button type="submit" class="submit-button">
+        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
+    </button>
+</form>
 <div class="row">
 
     {% for doc in docs %}

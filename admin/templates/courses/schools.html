@@ -13,8 +13,9 @@ https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/T
   {% if messages %}
     <ul class=flashes>
         {% for message in messages %}
-            <span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span>
-            <li>{{ message }}</li>
+            <li>
+                <span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span> {{ message }}
+            </li>
         {% endfor %}
     </ul>
   {% endif %}
