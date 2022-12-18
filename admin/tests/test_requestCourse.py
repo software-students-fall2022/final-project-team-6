@@ -63,7 +63,7 @@ class Tests:
 
                 doc["units"] = section["maxUnits"]
                 doc["location"] = section["location"]
-                doc["display"] = False
+                doc["display"] = True
                 doc["rmpURLs"] = []
                 doc["instructors"] = []
                 doc["overallRating"] = -1
@@ -123,7 +123,7 @@ class Tests:
 
                 doc["units"] = section["maxUnits"]
                 doc["location"] = section["location"]
-                doc["display"] = False
+                doc["display"] = True
                 doc["rmpURLs"] = []
                 doc["instructors"] = []
                 doc["overallRating"] = -1
