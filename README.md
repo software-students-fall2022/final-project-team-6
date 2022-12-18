@@ -49,11 +49,16 @@ python -m flask run --port=6001
 ```
 
 # Running Tests
-Running tests does not require you to setup a MongoDB database, but does require you to have Internet connection.
+
+IMPORTANT: Before you run tests, make sure both `.env` files in `users` and `admin` are as follows (since some tests require some pre-existing data):
+```
+DB_CONNECTION_STRING=mongodb+srv://doadmin:fj70nM43lo9I15S2@db-mongodb-nyc1-17689-274bdc70.mongo.ondigitalocean.com/admin?tls=true&authSource=admin&replicaSet=db-mongodb-nyc1-17689
+DB_NAME=App
+```
 
 <br>
 
-Simply navigate to `/users` or `/admin`, then:
+Then, simply navigate to `/users` or `/admin`, and:
 ```
 python -m pytest --cov
 ``` 
