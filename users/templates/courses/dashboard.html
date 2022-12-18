@@ -62,19 +62,19 @@
                 {% for course in value %}
                     {%if course.display == true%} 
                         <ul id="courseList" class="dashboard_ul">
-                            <li  class="dashboard_li">
-                                <form class="form-horizontal" action="/course/details" method="GET">
-                                <input type="hidden" name="courseID" value="{{course._id}}">
-                                <input type="submit" value="Details" />
-                                </form>
-                            </li>
 
                             <div class="list-group">
                             <li class="list-group-item" style="font-weight: bolder; font-family: 'Gill Sans MT Ext Condensed Bold'">
-                                Section {{course.section_code}}: {{ course.sectionName }}
+                                <form action="/course/details" method="GET">
+                                    <label>Section {{course.section_code}}: {{ course.sectionName }}</label>
+                                    <input type="hidden" name="courseID" value="{{course._id}}">
+                                    <button class="btn btn-default btn-sm" type="submit">
+                                        <span class="glyphicon glyphicon-edit"></span> <small>Details</small>
+                                    </button>
+                                </form>
                             </li>
                             <button type="button" class="list-group-item">Instructors:
-                                {% for instructor in course.instructors %} 
+                                {% for instructor in course.instructors %}
                                     {{ instructor }}
                                     {% if not loop.last %}, {% endif %}
                                 {%endfor%}
