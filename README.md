@@ -89,6 +89,48 @@ We have pushed our custom subsystem images to DockerHub:
 <br>
 [Visitor App](https://hub.docker.com/repository/docker/cty288/course-client) 
 
+<br>
+
+# CI/CD
+[Admin App CI/CD workflow](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/admin_workflow.yml)
+<br>
+[Client App CI/CD workflow](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/client_workflow.yml)
+
+# Admin Functionalities
+### Refresh All Schools/Subjects/Courses
+   1. On the top of the main Page, click "Refresh All Courses from Schedge API"
+   2. This will take some time to refresh all schools / subjects/ courses to the database
+
+### View All Courses of a particular subject
+1.  On the main page, click the school of the subject you want to view
+2.  Find the subject you want to explore
+3.  You will see a list of all displayed courses. You can click on those courses to view details
+
+### Hide/Show Courses
+1. On the same page, the switch on the top indicates whether you are viewing displayed courses or hidden courses.
+2. You can change the display status of each course on this page 
+   1. For example, if you are viewing displayed courses, you can change their status to `hidden` when you press "Hide All Selected Courses" button. Then, they will be removed from this list.
+   2. When you turn the switch to the other side, you will view all the `hidden` courses and you will be able to change their status back to  `displayed`
+
+### Delete Comments
+1. When you view details of a course, you can also see all its comments
+2. You can choose to delete a particular comment
+
+<br>
+
+# Client Functionalities
+### Login / Register / Logout
+1. You can login / register when you first use this app, and your session will be kept
+2. You can logout on the top-right corner in the App
+
+### Browse Courses / Dashboard
+1. By default, the school and subject on your dashboard are your major set during your registeration process
+2. You can change them and view all courses of your selected subject
+3. You can click on the title of a course to view all its sections.
+4. You can view the details of a specific section by pressing the "Details" button
+
+### Post Comments
+1. In the details panel of each section, you can post your comments and ratings to the course, which will affect this section's overall rating.
 # API Used 
 
 [Schedge](https://schedge.a1liu.com/)
@@ -113,6 +155,7 @@ Schools:
 {
     "schoolAbbr" : str,
     "schoolFullname" : str,
+    "image": str (url)
     "subjects" : [
         {
             "subjectAbbr" : str,
@@ -127,19 +170,33 @@ Course:
 
 ```javascript
 {  
-    "deptCourseId" : str,
-    "registrationNumber" : float,
-    "instructors" : str,
-    "type" : str,
-    "status" : str,
-    "instructionMode" : str,
-    "location" : str,
-    "units" : float,
-    "schoolAbbr" : str,
+   "courseName" : str,
     "schoolFullname" : str,
-    "subjectAbbr" :str,
+    "campus" : str,
+    "deptCourseId" : str,
+    "description" : str,
+    "display" : boolean,
+    "grading" : str,
+    "instructionMode" : str,
+    "instructors" : [
+        str
+    ],
+    "location" : str,
+    "notes" : str,
+    "overallRating" : int,
+    "rawCourseName" : str,
+    "registrationNumber" : int,
+    "rmpURLs" : [
+        str
+    ],
+    "schoolAbbr" : str
+    "sectionName" : str
+    "section_code" : str,
+    "status" : str,
+    "subjectAbbr" : str,
     "subjectFullname" : str,
-    "courseName" : str 
+    "type" : str,
+    "units" : float
 }
 ```
 
@@ -151,9 +208,11 @@ Comments:
         {
             "username" : str,
             "comment" : str,
-            "rating" : str
+            "rating" : str,
+            "comment_id": ObjectId
         }
-    ]
+    ],
+    "overall_rating": float
 }
 ```
 # File Structure
