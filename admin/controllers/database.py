@@ -16,7 +16,7 @@ from concurrent.futures import ThreadPoolExecutor
 import time
 config = dotenv_values(".env")
 database_page = Blueprint("database_page", __name__ )
-executor = ThreadPoolExecutor(2)
+executor = ThreadPoolExecutor(1)
 
 client = pymongo.MongoClient(config["DB_CONNECTION_STRING"])   
 db=client[config["DB_NAME"]]
