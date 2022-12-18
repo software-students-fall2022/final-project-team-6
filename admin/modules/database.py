@@ -3,7 +3,7 @@ import json
 from modules.requestCourses import getCourses
 
 def update(db,courseID,display):
-
+    print("courseID: ", courseID, "display: ", display)
     document = db.Courses.find_one({"_id": ObjectId(courseID)})
     if document:
         db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':display}}) #update the display field to True or False

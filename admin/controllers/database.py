@@ -13,6 +13,7 @@ from modules.database import update,show,disable,addAllCourses
 from bson import ObjectId
 from .comment import Comment
 from concurrent.futures import ThreadPoolExecutor
+import time
 config = dotenv_values(".env")
 database_page = Blueprint("database_page", __name__ )
 executor = ThreadPoolExecutor(2)
@@ -55,7 +56,24 @@ def displayAllfalse():
 
 @database_page.route('/update', methods=['POST'])
 def displayUpdate():
-    return update(db,    courseID = request.form.get('courseID'),    display = str(request.form.get('display')))
+    values = request.form['values']
+    values = json.loads(values)
+    schoolAbbr = request.form['schoolAbbr']
+    subjectAbbr = request.form['subjectAbbr']
+    
+    displaying = request.form['isCourseDisplaying']
+    if displaying == "true":
+        displaying = True
+    else:
+        displaying = False
+    
+    for value in values:
+        #print(value)
+        update(db, courseID = value, display = (not displaying))
+    
+    
+    
+    return redirect(url_for('index_page.course', schoolAbbr = schoolAbbr, subjectAbbr = subjectAbbr, display = displaying))
     #db.Courses.update_one({'_id':ObjectId(courseID)},{'$set':{'display':display}}) #update the display field to True or False
 
 def update_school_subjects(schools, subjects, database):
