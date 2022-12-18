@@ -48,6 +48,17 @@ pip3 install -r requirements.txt
 python -m flask run --port=6001
 ```
 
+# Running the Project for the First Time
+If the database in your `.env` files are new, you need to have some initial data in your databases before you run the User app.
+
+1. Launch the Admin App
+   ```
+   cd admin
+   python -m flask run --port=6001
+   ```
+2. On the main page, click "Refresh All Courses from Schedge API"
+3. Then, all NYU courses, schools, subjects info will be saved to your MongoDB. This is an asynchronous process, and it will take about 30 minutes to import everything. But you can still run User App while the Admin is importing data.
+4. In the future, if NYU updates its academic calender, you can always click the Refresh button to update existing courses. 
 # Running Tests
 
 IMPORTANT: Before you run tests, make sure both `.env` files in `users` and `admin` are as follows (since some tests require some pre-existing data):
