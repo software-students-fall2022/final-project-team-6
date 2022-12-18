@@ -21,6 +21,7 @@
     
     {% for key, value in courseMap %}
 
+    {% if loop.index0 <= 100 %}
     {% set course = value[0] %}
     {% set displayCount = namespace(value=0) %}
     <div class="collapsible collapsed" style="color: #245269">
@@ -87,6 +88,8 @@
             {% endfor %}
        {% endif %}
     </div>
+    {% endif %}
+    
     
 {% endfor %}
 
