@@ -38,7 +38,7 @@ def course():
     display = request.args.get("display")
     print("display: " + str(display).lower())
     docs = get_courses_from_db(db,schoolAbbr,subjectAbbr)
-
+    docs.sort(key=lambda x: x["deptCourseId"])
     return render_template('/courses/courses.html',docs=docs, schoolAbbr = schoolAbbr, subjectAbbr = subjectAbbr, display = str(display).lower())
 
 

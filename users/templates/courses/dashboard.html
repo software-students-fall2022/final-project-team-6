@@ -43,60 +43,70 @@
     {% for key, value in courseMap %}
 
         {% set course = value[0] %}
-
+        
         <div class="collapsible collapsed" style="color: #245269">
             {{course.subjectAbbr}}-{{course.schoolAbbr}}-{{course.deptCourseId}}: {{course.rawCourseName}}
         </div>
         
         
         <div class="content">
+            {% set count = namespace(value=0) %}
+            {% for course in value %}
+                {%if course.display == true%} 
+                    {% set count.value = count.value + 1 %}
+                {%endif%}
+            {% endfor %}
+            {% if count.value == 0 %}
+                <p>No sections available for this Course!</p>
+            {% else%}
                 {% for course in value %}
+                    {%if course.display == true%} 
+                        <ul id="courseList" class="dashboard_ul">
+                            <li  class="dashboard_li">
+                                <form class="form-horizontal" action="/course/details" method="GET">
+                                <input type="hidden" name="courseID" value="{{course._id}}">
+                                <input type="submit" value="Details" />
+                                </form>
+                            </li>
 
-                <ul id="courseList" class="dashboard_ul">
-                <li  class="dashboard_li">
-                    <form class="form-horizontal" action="/course/details" method="GET">
-                    <input type="hidden" name="courseID" value="{{course._id}}">
-                    <input type="submit" value="Details" />
-                    </form>
-                </li>
+                            <div class="list-group">
+                            <li class="list-group-item" style="font-weight: bolder; font-family: 'Gill Sans MT Ext Condensed Bold'">
+                                Section {{course.section_code}}: {{ course.sectionName }}
+                            </li>
+                            <button type="button" class="list-group-item">Instructors:
+                                {% for instructor in course.instructors %} 
+                                    {{ instructor }}
+                                    {% if not loop.last %}, {% endif %}
+                                {%endfor%}
+                            </button>
+                            <li class="list-group-item">Type: {{ course.type }}</li>
+                            <div>
+                                {% if course.status == "Closed" %}
+                                    <li class="list-group-item">
+                                        Status: {{ course.status }}
+                                        <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+                                    </li>
+                                {% else %}
+                                    <li type="button" class="list-group-item">
+                                        Status: {{ course.status }}
+                                        <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+                                    </li>
+                                {% endif %}
+                            </div>
+                            <li class="list-group-item">
+                                {%if course.overallRating >= 0%}
+                                    <p>Overall Rating: {{ course.overallRating }}</p>
+                                {%else%}
+                                    <p>Overall Rating: N/A</p>
+                                {%endif%}
+                            </li>
+                            </div>
 
-                <div class="list-group">
-                  <li class="list-group-item" style="font-weight: bolder; font-family: 'Gill Sans MT Ext Condensed Bold'">
-                      Section {{course.section_code}}: {{ course.sectionName }}
-                  </li>
-                  <button type="button" class="list-group-item">Instructors:
-                    {% for instructor in course.instructors %} 
-                        {{ instructor }}
-                        {% if not loop.last %}, {% endif %}
-                    {%endfor%}
-                  </button>
-                  <li class="list-group-item">Type: {{ course.type }}</li>
-                <div>
-                    {% if course.status == "Closed" %}
-                        <li class="list-group-item">
-                            Status: {{ course.status }}
-                            <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
-                        </li>
-                    {% else %}
-                        <li type="button" class="list-group-item">
-                            Status: {{ course.status }}
-                            <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
-                        </li>
-                    {% endif %}
-                </div>
-                  <li class="list-group-item">
-                      {%if course.overallRating >= 0%}
-                        <p>Overall Rating: {{ course.overallRating }}</p>
-                    {%else%}
-                        <p>Overall Rating: N/A</p>
+
+                        </ul>
                     {%endif%}
-                  </li>
-                </div>
-
-
-            </ul>
                 {% endfor %}
-            
+           {% endif %}
         </div>
         
     {% endfor %}

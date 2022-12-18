@@ -66,13 +66,17 @@
   }
 </style>
 
+<form action="/subjects" method="GET" id="form">
+  <input type="hidden" name="schoolAbbr" value="{{schoolAbbr}}">
+  <input type="submit" value="Back">
+</form>
 
 <label class="switch">
   <input type="checkbox" id="displayToggle">
   <span class="slider"></span>
 </label>
 <label for="toggle" id="toggleLabel" style="margin-left: 10px;">Showing: 
-  {%if display == true %}
+  {%if display == true or display == "true" %}
     Displayed Courses
   {% else %}
     Hidden Courses
@@ -81,7 +85,7 @@
 
 <div class="row">
   <h2 id="select_title">Select courses to 
-    {%if display == true %}
+    {%if display == true or display == "true"%}
       hide
     {% else %}
       display
@@ -96,7 +100,7 @@
     <ul>
       <li class="course_element" data-display="{{doc.display}}">
         <input type="checkbox" name="courseID" value={{doc.id}} class="course_checkbox">
-        <a href="/course/details?courseID={{doc.id}}" target="_blank">{{doc.courseName}}</a> 
+        <a href="/course/details?courseID={{doc.id}}" target="_blank">{{doc.subjectAbbr}}-{{doc.schoolAbbr}}-{{doc.deptCourseId}}-{{doc.section_code}}: {{doc.sectionName}}</a> 
       </li>
     </ul>
 {% endfor %}
