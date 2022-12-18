@@ -39,7 +39,7 @@ button {
   text-align: left;
   outline: none;
   font-size: 15px;
-  background-color: aqua;
+  background-color: #e2e2e2;
 }
 
 .collapsible:before {
@@ -55,6 +55,6 @@ button {
 }
 
 .collapsible.active {
-  background-color: rgb(57, 152, 255);
+  background-color: #e2e2e2;
   box-shadow: 0 8px 12px 0 rgba(0,0,0,0.2);
 }

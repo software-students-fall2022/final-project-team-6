@@ -20,5 +20,4 @@ def delete_course():
     commentID = request.form.get('comment_id')
     courseID = request.form.get('course_id')
     database.delete_course_comment(courseID,commentID, db)  
-    
     return redirect(url_for('course.details', courseID = courseID))
