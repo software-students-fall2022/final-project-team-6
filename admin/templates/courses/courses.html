@@ -102,7 +102,13 @@
         <div class="panel-body">
 
             <div class="btn-group" role="group" aria-label="...">
-                <button type="submit" onclick="submit()" class="btn btn-default">Submit</button>
+                <button type="submit" onclick="submit()" class="btn btn-default" id="select_button">
+                  {%if display==true or display=="true"%}
+                  Hide all Selected Courses
+                  {%else%}
+                  Display all Selected Courses
+                   {%endif%}
+                </button>
                 <button type="submit" onclick="selectAll()" class="btn btn-default">Select All</button>
                 <button type="submit" onclick="unselectAll()" class="btn btn-default">Unselect All</button>
             <br>
@@ -176,7 +182,7 @@
    
     const label = document.getElementById('toggleLabel');
     const select_title = document.getElementById('select_title');
-  
+    const select_button = document.getElementById('select_button');
 
     function toggleDisplay() {
       const courses = document.querySelectorAll('.course_element');
@@ -205,9 +211,11 @@
       if (event.target.checked) {
         label.textContent = 'Showing: Displayed Courses';
         select_title.textContent = 'Select courses to hide:';
+        select_button.textContent = 'Hide all Selected Courses';
       } else {
         label.textContent = 'Showing: Hidden Courses';
         select_title.textContent = 'Select courses to display:';
+        select_button.textContent = 'Display all Selected Courses';
       }
     });
    
