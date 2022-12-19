@@ -95,6 +95,8 @@ We have pushed our custom subsystem images to DockerHub:
 [Admin App CI/CD workflow](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/admin_workflow.yml)
 <br>
 [Client App CI/CD workflow](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/client_workflow.yml)
+<br>
+*Note: Test coverages are also included in our GitHub Action workflows.
 
 # Admin Functionalities
 ### Refresh All Schools/Subjects/Courses
@@ -203,7 +205,7 @@ Course:
 Comments:
 ```javascript
 {
-    "courseName" : str,
+    "course_id" : ObjectId,
     "comments" : [
         {
             "username" : str,
