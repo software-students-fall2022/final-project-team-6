@@ -11,7 +11,7 @@ Users app is more like a "Rate my NYU Courses" website. They can browse all cour
 
 # Subsystems
 - a **admin** - a program that demonstrates the courses information from API and demonstrate on screen for admin to add and delete to maintain
-- a **users** - an interface through which web visitors can see the course information and maintain the database
+- a **users** - an interface through which web visitors can see the course information and post their comments & ratings
 - a **database** - stores the data used by both other parts
 
 # Running the Project
