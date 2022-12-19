@@ -159,49 +159,122 @@ Comments:
 # File Structure
 
 ```
-.
+├── LICENSE
+├── README.md
 ├── admin
+│   ├── Dockerfile
+│   ├── README.md
+│   ├── app.py
 │   ├── common
 │   │   └── libs
+│   │       ├── Url_Manager.py
+│   │       └── __init__.py
 │   ├── config
+│   │   └── base_setting.py
 │   ├── controllers
+│   │   ├── __init__.py
+│   │   ├── comment.py
+│   │   ├── course.py
+│   │   ├── database.py
+│   │   └── index.py
+│   ├── crawl.py
+│   ├── modules
+│   │   ├── editDatabase.py
+│   │   └── requestCourses.py
+│   ├── requirements.txt
+│   ├── rmpData.json
 │   ├── static
 │   │   ├── css
+│   │   │   └── photo_demo.css
+│   │   ├── images
+│   │   │   ├── empty_star.png
+│   │   │   └── filled_star.png
 │   │   └── plugins
 │   │       ├── bootstrap_v3
 │   │       │   ├── css
 │   │       │   ├── fonts
 │   │       │   └── js
+│   │       ├── jquery.min.js
 │   │       └── layer
+│   │           ├── layer.js
 │   │           ├── mobile
+│   │           │   ├── layer.js
 │   │           │   └── need
+│   │           │       └── layer.css
 │   │           └── skin
-│   │               └── default
 │   ├── templates
 │   │   ├── common
+│   │   │   └── layout.html
 │   │   └── courses
+│   │       ├── course_details.html
+│   │       ├── courses.html
+│   │       ├── schools.html
+│   │       └── subjects.html
 │   └── tests
+│       ├── test_comment.py
+│       ├── test_course.py
+│       ├── test_database.py
+│       ├── test_editDatabase.py
+│       ├── test_index.py
+│       └── test_requestCourse.py
+├── docker-compose.yaml
 └── users
+    ├── Dockerfile
+    ├── app.py
     ├── common
     │   └── libs
+    │       ├── Url_Manager.py
+    │       └── __init__.py
     ├── config
+    │   └── base_setting.py
     ├── controllers
+    │   ├── __init__.py
+    │   ├── course.py
+    │   ├── dashboard.py
+    │   ├── index.py
+    │   └── login.py
+    ├── models
+    │   ├── __init__.py
+    │   ├── comment.py
+    │   ├── database.py
+    │   └── user.py
+    ├── requirements.txt
     ├── static
     │   ├── css
+    │   │   └── dashboard.css
+    │   ├── images
+    │   │   ├── empty_star.png
+    │   │   └── filled_star.png
     │   └── plugins
     │       ├── bootstrap_v3
     │       │   ├── css
     │       │   ├── fonts
     │       │   └── js
+    │       ├── jquery.min.js
     │       └── layer
+    │           ├── layer.js
     │           ├── mobile
+    │           │   ├── layer.js
     │           │   └── need
+    │           │       └── layer.css
     │           └── skin
-    │               └── default
     ├── templates
     │   ├── common
-    │   └── courses
+    │   │   ├── layout.html
+    │   │   └── layout_authenticated.html
+    │   ├── courses
+    │   │   ├── course_details.html
+    │   │   ├── dashboard.html
+    │   │   ├── dashboard_search.html
+    │   │   ├── hello_world.html
+    │   │   └── index.html
+    │   ├── hello_world.html
+    │   ├── login.html
+    │   └── sign_up.html
     └── tests
+        ├── test_database.py
+        ├── test_login_route.py
+        └── test_test.py
 ```
 
 # Contributors
