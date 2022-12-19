@@ -3,11 +3,11 @@
 
 # Overview
 
-This is a course forum with Albert courses data, comments and rate my professor link
+This is an NYU course forum with Albert courses data, comments and rate my professor link. It contains three subsystems: User app, Admin app, and a MongoDB database.
 
-Admin can search add,delete courses to the mongoDB to maintain the course the correctness of the information
+Admin app can add, delete courses to the mongoDB to maintain the course the correctness of the information. They can also delete comments for a specific course, and refresh all courses with Schedge API when NYU updates its academic calender
 
-Users can search add,comment and view all the course information
+Users app is more like a "Rate my NYU Courses" website. They can browse all courses and their detailed information, search, rate, and add their comments for a specific course.
 
 # Subsystems
 - a **admin** - a program that demonstrates the courses information from API and demonstrate on screen for admin to add and delete to maintain
