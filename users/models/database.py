@@ -95,3 +95,4 @@ def search(search_string, database):
     if(courses == None):
         return []
     return list(courses)
+

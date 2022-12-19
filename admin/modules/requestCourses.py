@@ -52,7 +52,15 @@ def getCourses(db,schoolAbbr,subjectAbbr):
             doc["rmpURLs"] = []
             doc["instructors"] = []
             doc["overallRating"] = -1
+            existing = db.Courses.find_one({'courseName':doc["courseName"], 'schoolFullname':schoolFullname})
+            if existing:
+                doc["overallRating"] = existing["overallRating"]
+                
+            
+           
             db.Courses.update_one({'courseName':doc["courseName"], 'schoolFullname':schoolFullname},{"$set":doc},upsert=True)
+            
+            
             for professor in section["instructors"]:
                 rmpURL = "https://www.ratemyprofessors.com/"
                 if professor != "Staff":

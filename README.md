@@ -3,15 +3,15 @@
 
 # Overview
 
-This is a course forum with Albert courses data, comments and rate my professor link
+This is an NYU course forum with Albert courses data, comments and rate my professor link. It contains three subsystems: User app, Admin app, and a MongoDB database.
 
-Admin can search add,delete courses to the mongoDB to maintain the course the correctness of the information
+Admin app can add and update courses to the mongoDB to maintain the course and the correctness of the information with the help of Schedge API. They can also view course details, change the visibility of all courses, delete comments for a specific course, and refresh all courses when NYU updates its academic calender
 
-Users can search add,comment and view all the course information
+Users app is more like a "Rate my NYU Courses" website. They can browse all courses and their detailed information, search, rate, and add their comments for a specific course.
 
 # Subsystems
 - a **admin** - a program that demonstrates the courses information from API and demonstrate on screen for admin to add and delete to maintain
-- a **users** - an interface through which web visitors can see the course information and maintain the database
+- a **users** - an interface through which web visitors can see the course information and post their comments & ratings
 - a **database** - stores the data used by both other parts
 
 # Running the Project
@@ -95,6 +95,8 @@ We have pushed our custom subsystem images to DockerHub:
 [Admin App CI/CD workflow](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/admin_workflow.yml)
 <br>
 [Client App CI/CD workflow](https://github.com/software-students-fall2022/final-project-team-6/actions/workflows/client_workflow.yml)
+<br>
+*Note: Test coverages are also included in our GitHub Action workflows.
 
 # Admin Functionalities
 ### Refresh All Schools/Subjects/Courses
@@ -203,7 +205,7 @@ Course:
 Comments:
 ```javascript
 {
-    "courseName" : str,
+    "course_id" : ObjectId,
     "comments" : [
         {
             "username" : str,
