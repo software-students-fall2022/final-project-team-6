@@ -1,0 +1,9 @@
+{% extends "common/layout_authenticated.html"%}
+{% block content %}
+    <body>
+        <p> Hello World</p>
+        <form action="/login/logout" method="post">
+            <input type="submit" name="submit" value="Logout">
+        </form>
+    </body>
+{% endblock %}

@@ -1,0 +1,21 @@
+version: '1'
+services: 
+
+  db:
+    image: mongo:5.0
+    ports: 
+      - "27017:27017"
+
+
+  course-client:
+    build: ./users
+    ports:
+      - "6001:6001"
+    image: cty288/course-client
+    
+
+  course-admin:
+    build: ./admin
+    ports:
+      - "7001:7001"
+    image: cty288/course-admin

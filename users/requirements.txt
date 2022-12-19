@@ -1,0 +1,5 @@
+Flask
+pymongo==4.3.3
+python-dotenv==0.21.0
+Flask-Login==0.6.2
+pytest

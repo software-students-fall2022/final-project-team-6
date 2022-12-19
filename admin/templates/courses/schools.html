@@ -1,0 +1,51 @@
+<!--REFERENCE
+https://developer.mozilla.org/en-US/docs/Web/API/Media_Capture_and_Streams_API/Taking_still_photos#javascript
+-->
+{% extends "common/layout.html"%}
+{% block content %}
+
+<form action="/database/addAll" method="GET">
+    <button type="submit" class="submit-button">
+        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+    </button>
+    <p> Refresh All Courses from Schedge API</p>
+</form>
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+        {% for message in messages %}
+            <li>
+                <span class="glyphicon glyphicon-floppy-open" aria-hidden="true"></span> {{ message }}
+            </li>
+        {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<div class="row">
+
+    {% for doc in docs %}
+        <div class="col-md-4">
+            <div class="thumbnail">
+                <img style="width: 100%; height: 100%;" src="{{doc.image}}" alt="...">
+                <div class="caption">
+                    <h3 style="overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 1">{{ doc.schoolFullname }}</h3>
+                    <div style="margin: auto" class="btn-toolbar" role="toolbar" aria-label="...">
+                        <form id="sub{{doc.schoolAbbr}}" action = "/subjects" method = "GET">
+                            <p><a style="margin-right: 5px;" href="javascript:;" class="btn btn-primary" role="button" onclick = "document.getElementById('sub{{doc.schoolAbbr}}').submit();">Subjects</a>
+                                <input type="hidden" name="schoolAbbr" value="{{doc.schoolAbbr}}">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}
+
+
+
+

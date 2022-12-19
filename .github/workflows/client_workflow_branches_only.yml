@@ -1,0 +1,36 @@
+name: client workflow for testing branches
+
+on: 
+  push:
+    branches:
+      - '*'
+      - '!main'
+    
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./users
+    timeout-minutes: 10
+    strategy:
+      matrix:
+        python-version: ["3.8", "3.10"]
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Create env file
+        run: |
+          echo "${{ secrets.ENV_FILE }}" > .env
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Test with pytest
+        run: |
+          pytest
